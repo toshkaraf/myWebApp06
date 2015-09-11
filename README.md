@@ -4,8 +4,7 @@ Java Web Online Project
 
 #### **<a href="http://javawebinar.ru/basejava/">Старт проекта 18.09.2015</a>**
 
-##<a href="http://www.youtube.com/watch?v=stYj2RhjvQ8" target="_blank">Инсталляция ПО для вебинаров (Java, Git,
-        IntelliJ IDEA 14) </a>
+##<a href="http://www.youtube.com/watch?v=stYj2RhjvQ8" target="_blank">Инсталляция ПО для вебинаров (Java, Git, IntelliJ IDEA)</a>
         
 ## <a href="https://drive.google.com/file/d/0B9Ye2auQ_NsFSUNrdVc0bDZuX2s">Системы управления версиями. Git.
 
