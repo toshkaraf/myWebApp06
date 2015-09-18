@@ -14,7 +14,7 @@ public class Main {
         if (args.length > 0) {
             System.out.println("Hello " + args[0]);
         } else {
-            System.out.println("Hello Java Online Projects!");
+            System.out.println("Hello WebApp!");
         }
     }
 }
