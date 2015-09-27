@@ -1,5 +1,7 @@
 package main;
 
+import main.ru.javawebinar.webapp.model.Link;
+
 import java.util.List;
 
 /**
@@ -13,10 +15,7 @@ public class Main {
      * @param args : program arguments
      */
     public static void main(String[] args) {
-        if (args.length > 0) {
-            System.out.println("Hello " + args[0]);
-        } else {
-            System.out.println("Hello WebApp!");
-        }
+        Link link = new Link();
+        System.out.println(link.getName() + " " + link.getUrl());
     }
 }
