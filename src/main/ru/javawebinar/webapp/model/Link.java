@@ -5,9 +5,9 @@ package main.ru.javawebinar.webapp.model;
  * 27.09.2015.
  */
 public class Link {
-    int i = 5;
-    private final String name;
-    private final String url;
+    public int i = 5;
+    public String name;
+    public String url;
 
     public Link() {
         this(null, null);
