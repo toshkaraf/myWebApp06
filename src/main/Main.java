@@ -3,6 +3,7 @@ package main;
 import main.ru.javawebinar.webapp.model.ContactType;
 import main.ru.javawebinar.webapp.model.Link;
 import main.ru.javawebinar.webapp.model.MultiTextSection;
+import main.ru.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
 
@@ -15,7 +16,5 @@ public class Main {
         for (ContactType contact : ContactType.values()) {
             System.out.println(contact.toHtml("value"));
         }
-        new MultiTextSection("a", "b", "b");
-        new MultiTextSection(new String[]{"a", "b", "b"});
     }
 }

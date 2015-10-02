@@ -22,4 +22,11 @@ public class LandVehicle extends Vehicle implements ILandVehicle {
     public void move() {
         System.out.println("Go");
     }
+
+    @Override
+    public String toString() {
+        return "LandVehicle{" +
+                "wheelNumber=" + wheelNumber +
+                '}';
+    }
 }
