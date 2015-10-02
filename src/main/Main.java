@@ -1,5 +1,7 @@
 package main;
 
+import main.ru.javawebinar.webapp.store.ArrayStorage;
+
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -24,5 +26,16 @@ public class Main {
         System.out.println(integer1 == integer2);
         System.out.println(integer1.equals(integer2));
 
+        String str = "";
+        for (int i = 0; i < 10; i++) {
+            str += i;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            sb.append(i);
+        }
+        System.out.println(sb.toString());
+        System.out.println(ArrayStorage.LIMIT);
     }
 }
