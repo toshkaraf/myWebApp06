@@ -7,16 +7,16 @@ import java.io.Serializable;
  * 26.12.2014.
  */
 public enum ContactType {
-    PHONE("Тел."),
-    MOBILE("Мобильный"),
-    HOME_PHONE("Домашний тел."),
+    PHONE("РўРµР»."),
+    MOBILE("РњРѕР±РёР»СЊРЅС‹Р№"),
+    HOME_PHONE("Р”РѕРјР°С€РЅРёР№ С‚РµР»."),
     SKYPE("Skype"){
         @Override
         public String toHtml(String value) {
             return "<a href='skype:" + value + "'>" + value + "</a>";
         }
     },
-    MAIL("Почта") {
+    MAIL("РџРѕС‡С‚Р°") {
         @Override
         public String toHtml(String value) {
             return "<a href='mailto:" + value + "'>" + value + "</a>";
