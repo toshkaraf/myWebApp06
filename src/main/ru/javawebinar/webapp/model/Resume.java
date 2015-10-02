@@ -7,10 +7,19 @@ import java.util.Map;
  * 18.09.2015.
  */
 public class Resume {
-    private Map<ContactType, String> contacts;
-    private Map<SectionType, Section> sections;
+    private final Map<ContactType, String> contacts;
+    private final Map<SectionType, Section> sections;
 
-    public Resume(Map<ContactType, String> contacts) {
+    public Resume(Map<ContactType, String> contacts, Map<SectionType, Section> sections) {
         this.contacts = contacts;
+        this.sections = sections;
+    }
+
+    public Map<ContactType, String> getContacts() {
+        return contacts;
+    }
+
+    public Map<SectionType, Section> getSections() {
+        return sections;
     }
 }

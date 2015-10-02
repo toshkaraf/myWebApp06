@@ -9,9 +9,13 @@ import java.util.List;
  * 02.10.2015.
  */
 public class MultiTextSection {
-    private List<String> lines = new LinkedList<>();
+    private final List<String> lines;
 
-    public MultiTextSection(String... values) {
-        System.out.println(Arrays.toString(values));
+    public MultiTextSection(List<String> lines) {
+        this.lines = lines;
+    }
+
+    public List<String> getLines() {
+        return lines;
     }
 }
