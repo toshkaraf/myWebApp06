@@ -1,10 +1,6 @@
 package main;
 
-import main.ru.javawebinar.webapp.model.ContactType;
-import main.ru.javawebinar.webapp.model.Link;
-import main.ru.javawebinar.webapp.model.MultiTextSection;
-import main.ru.javawebinar.webapp.model.Resume;
-
+import java.nio.charset.Charset;
 import java.util.Arrays;
 
 /**
@@ -13,8 +9,20 @@ import java.util.Arrays;
  */
 public class Main {
     public static void main(String[] args) {
-        for (ContactType contact : ContactType.values()) {
-            System.out.println(contact.toHtml("value"));
-        }
+        String value = "value";
+        System.out.println(value.charAt(3));
+        byte[] bytes = value.getBytes();
+        System.out.println(Charset.defaultCharset().name());
+        char[] chars = value.toCharArray();
+        System.out.println(Arrays.toString(bytes));
+        String a = "abc";
+        String b = ("ab" + new String("c")).intern();
+        System.out.println(a == b);
+        System.out.println(a.equals(b));
+        Integer integer1 = Integer.valueOf(200);
+        Integer integer2 = Integer.valueOf(200);
+        System.out.println(integer1 == integer2);
+        System.out.println(integer1.equals(integer2));
+
     }
 }
