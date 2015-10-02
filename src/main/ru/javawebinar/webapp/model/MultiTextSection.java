@@ -12,6 +12,6 @@ public class MultiTextSection {
     private List<String> lines = new LinkedList<>();
 
     public MultiTextSection(String... values) {
-        System.out.println(values);
+        System.out.println(Arrays.toString(values));
     }
 }

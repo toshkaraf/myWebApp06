@@ -16,5 +16,6 @@ public class Main {
             System.out.println(contact.toHtml("value"));
         }
         new MultiTextSection("a", "b", "b");
+        new MultiTextSection(new String[]{"a", "b", "b"});
     }
 }
