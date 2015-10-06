@@ -28,6 +28,10 @@ public class Resume {
         return uuid;
     }
 
+    public String getFullName() {
+        return fullName;
+    }
+
     public Map<ContactType, String> getContacts() {
         return contacts;
     }
