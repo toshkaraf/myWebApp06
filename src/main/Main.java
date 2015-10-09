@@ -1,7 +1,5 @@
 package main;
 
-import main.ru.javawebinar.webapp.store.ArrayStorage;
-
 import java.nio.charset.Charset;
 import java.util.Arrays;
 
@@ -36,6 +34,5 @@ public class Main {
             sb.append(i);
         }
         System.out.println(sb.toString());
-        System.out.println(ArrayStorage.LIMIT);
     }
 }

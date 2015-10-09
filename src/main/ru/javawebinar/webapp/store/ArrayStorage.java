@@ -8,7 +8,7 @@ import java.util.Collection;
  * GKislin
  * 02.10.2015.
  */
-public class ArrayStorage implements IStore {
+public class ArrayStorage implements IStorage {
     private static final int MAX_LENGTH = 10000;
 
     private Resume[] array = new Resume[MAX_LENGTH];
