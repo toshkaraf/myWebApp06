@@ -2,6 +2,7 @@ package main.ru.javawebinar.webapp.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -19,6 +20,8 @@ public class Resume {
     }
 
     public Resume(String uuid, String fullName) {
+        Objects.requireNonNull(fullName);
+        Objects.requireNonNull(uuid);
         this.uuid = uuid;
         this.fullName = fullName;
     }
@@ -58,16 +61,7 @@ public class Resume {
 
         Resume resume = (Resume) o;
 
-        if (!uuid.equals(resume.uuid)) {
-            return false;
-        }
-        if (!fullName.equals(resume.fullName)) {
-            return false;
-        }
-        if (!contacts.equals(resume.contacts)) {
-            return false;
-        }
-        return sections.equals(resume.sections);
+        return uuid.equals(resume.uuid) && fullName.equals(resume.fullName) && contacts.equals(resume.contacts) && sections.equals(resume.sections);
 
     }
 
@@ -82,6 +76,6 @@ public class Resume {
 
     @Override
     public String toString() {
-        return "{fullName='" + fullName + " (" +uuid+")}";
+        return "{fullName='" + fullName + " (" + uuid + ")}";
     }
 }
