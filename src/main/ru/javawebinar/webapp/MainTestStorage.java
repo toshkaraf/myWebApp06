@@ -4,7 +4,9 @@ import main.ru.javawebinar.webapp.model.*;
 import main.ru.javawebinar.webapp.store.ArrayStorage;
 import main.ru.javawebinar.webapp.store.IStorage;
 
+import java.io.IOException;
 import java.time.Month;
+import java.util.logging.LogManager;
 
 /**
  * GKislin
@@ -67,7 +69,9 @@ public class MainTestStorage {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        LogManager.getLogManager().readConfiguration(
+                MainTestStorage.class.getResourceAsStream("/logging.properties"));
         MainTestStorage mainTestStorage = new MainTestStorage();
         mainTestStorage.test();
     }
