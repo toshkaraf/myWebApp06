@@ -1,8 +1,8 @@
 package main.ru.javawebinar.webapp;
 
 import main.ru.javawebinar.webapp.model.*;
-import main.ru.javawebinar.webapp.store.ArrayStorage;
 import main.ru.javawebinar.webapp.store.IStorage;
+import main.ru.javawebinar.webapp.store.SortedArrayStorage;
 
 import java.time.Month;
 
@@ -12,7 +12,7 @@ import java.time.Month;
  */
 public class MainTestStore {
     private Resume R1, R2, R3;
-    private IStorage store = new ArrayStorage();
+    private IStorage store = new SortedArrayStorage();
 
     {
         R1 = new Resume("Полное Имя1");

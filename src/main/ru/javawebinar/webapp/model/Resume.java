@@ -62,7 +62,6 @@ public class Resume {
         Resume resume = (Resume) o;
 
         return uuid.equals(resume.uuid) && fullName.equals(resume.fullName) && contacts.equals(resume.contacts) && sections.equals(resume.sections);
-
     }
 
     @Override
