@@ -1,5 +1,7 @@
 package main.ru.javawebinar.webapp.store;
 
+import main.ru.javawebinar.webapp.WebAppException;
+
 /**
  * GKislin
  * 09.10.2015.
@@ -10,7 +12,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected int getExistedIndex(String uuid) {
         int idx = getIndex(uuid);
         if (idx < 0) {
-            throw new IllegalStateException("Resume " + uuid + "not exist");
+            throw new WebAppException("Resume not exist", uuid);
         }
         return idx;
     }

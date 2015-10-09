@@ -63,7 +63,7 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void testSave() throws Exception {
+    public void testSave() {
         assertEquals("expected", "actual");
     }
 

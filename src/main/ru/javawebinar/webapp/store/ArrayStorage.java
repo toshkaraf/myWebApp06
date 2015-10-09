@@ -1,5 +1,6 @@
 package main.ru.javawebinar.webapp.store;
 
+import main.ru.javawebinar.webapp.WebAppException;
 import main.ru.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -25,13 +26,14 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void save(Resume r) {
+        log.info("save " + r);
         requireNonNull(r, "Resume must not be null");
         int idx = getIndex(r.getUuid());
         if (idx != -1) {
-            throw new IllegalArgumentException("Resume " + r.getUuid() + "already exist");
+            throw new WebAppException("Resume already exist", r);
         }
         if (currentSize == MAX_LENGTH) {
-            throw new IllegalStateException("Max storage volume " + MAX_LENGTH + " is exceeded");
+            throw new WebAppException("Max storage volume " + MAX_LENGTH + " is exceeded", r);
         }
         array[currentSize++] = r;
     }
