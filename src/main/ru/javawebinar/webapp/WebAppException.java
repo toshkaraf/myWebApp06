@@ -4,7 +4,7 @@ import main.ru.javawebinar.webapp.model.Resume;
 
 /**
  * GKislin
- * 09.10.2015.
+ * 09.10.2015. my version
  */
 public class WebAppException extends RuntimeException {
     private Resume resume;
