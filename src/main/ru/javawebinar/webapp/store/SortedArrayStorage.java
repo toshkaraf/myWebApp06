@@ -14,27 +14,18 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void clear() {
-        Arrays.fill(array, null);  // let gc do his work
+        super.clear();
         Arrays.fill(sortedUuids, null);
-        currentSize = 0;
     }
 
     @Override
     public void save(Resume r) {
-        int idx = getIndex(r.getUuid());
-        if (idx > 0) {
-            throw new IllegalStateException("Resume " + r.getUuid() + "already exist");
-        }
-        if (currentSize == MAX_LENGTH) {
-            throw new IllegalStateException("Max storage volume " + MAX_LENGTH + " is exceeded");
-        }
-//        http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
-        int insertIdx = -idx - 1;
+        //        http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
+        int insertIdx = -(isRequestValid(r)) - 1;
         System.arraycopy(array, insertIdx, array, insertIdx + 1, currentSize - insertIdx);
         System.arraycopy(sortedUuids, insertIdx, sortedUuids, insertIdx + 1, currentSize - insertIdx);
         set(insertIdx, r);
-        currentSize += 1;
-    }
+     }
 
     private void set(int idx, Resume r) {
         array[idx] = r;

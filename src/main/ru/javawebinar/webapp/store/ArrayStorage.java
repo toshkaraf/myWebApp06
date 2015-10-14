@@ -14,28 +14,11 @@ import static java.util.Objects.requireNonNull;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-
-
-    @Override
-    public void clear() {
-        currentSize = 0;
-        Arrays.fill(array, null); // let gc do his work
-    }
-
     @Override
     public void save(Resume r) {
-        log.info("save " + r);
-        requireNonNull(r, "Resume must not be null");
-        int idx = getIndex(r.getUuid());
-        if (idx != -1) {
-            throw new WebAppException("Resume already exist", r);
-        }
-        if (currentSize == MAX_LENGTH) {
-            throw new WebAppException("Max storage volume " + MAX_LENGTH + " is exceeded", r);
-        }
-        array[currentSize++] = r;
+        isRequestValid(r);
+        array[currentSize] = r;
     }
-
     @Override
     public void update(Resume r) {
         requireNonNull(r);

@@ -22,4 +22,6 @@ public interface IStorage {
     Collection<Resume> getAllSorted();
 
     int size();
+
+    int isRequestValid(Resume r);
 }
