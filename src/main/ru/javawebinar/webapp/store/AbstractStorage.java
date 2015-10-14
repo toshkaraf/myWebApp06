@@ -10,4 +10,5 @@ public abstract class AbstractStorage implements IStorage {
 //    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
     protected final Logger log = Logger.getLogger(getClass().getName());
 
+    
 }

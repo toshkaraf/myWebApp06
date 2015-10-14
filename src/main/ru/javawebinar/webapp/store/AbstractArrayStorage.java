@@ -1,6 +1,7 @@
 package main.ru.javawebinar.webapp.store;
 
 import main.ru.javawebinar.webapp.WebAppException;
+import main.ru.javawebinar.webapp.model.Resume;
 
 /**
  * GKislin
@@ -8,6 +9,8 @@ import main.ru.javawebinar.webapp.WebAppException;
  */
 public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int MAX_LENGTH = 100000;
+    protected final Resume[] array = new Resume[MAX_LENGTH];
+    protected int currentSize = 0;
 
     protected int getExistedIndex(String uuid) {
         int idx = getIndex(uuid);
@@ -18,5 +21,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     protected abstract int getIndex(String uuid);
+
+
 }
 

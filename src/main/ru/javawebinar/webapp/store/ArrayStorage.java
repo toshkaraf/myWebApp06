@@ -13,10 +13,8 @@ import static java.util.Objects.requireNonNull;
  * 02.10.2015.
  */
 public class ArrayStorage extends AbstractArrayStorage {
-    private static final int MAX_LENGTH = 100000;
 
-    private final Resume[] array = new Resume[MAX_LENGTH];
-    private int currentSize = 0;
+
 
     @Override
     public void clear() {

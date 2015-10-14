@@ -10,11 +10,7 @@ import java.util.Collection;
  * 09.10.2015.
  */
 public class SortedArrayStorage extends AbstractArrayStorage {
-
-    private final Resume[] array = new Resume[MAX_LENGTH];
     private String[] sortedUuids = new String[MAX_LENGTH];
-
-    private int currentSize = 0;
 
     @Override
     public void clear() {
