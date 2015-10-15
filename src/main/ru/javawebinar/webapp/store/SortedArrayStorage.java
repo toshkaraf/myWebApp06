@@ -10,6 +10,7 @@ import java.util.Collection;
  * 09.10.2015.
  */
 public class SortedArrayStorage extends AbstractArrayStorage {
+
     private String[] sortedUuids = new String[MAX_LENGTH];
 
     @Override

@@ -13,6 +13,7 @@ import static java.util.Objects.requireNonNull;
  * 09.10.2015.
  */
 public abstract class AbstractArrayStorage extends AbstractStorage {
+
     protected static final int MAX_LENGTH = 100000;
     protected final Resume[] array = new Resume[MAX_LENGTH];
     protected int currentSize = 0;
@@ -28,7 +29,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public int isRequestValid(Resume r) {
         requireNonNull(r, "Resume must not be null");
         int idx = getIndex(r.getUuid());
-        if (idx != -1) {
+        if (idx >= 0) {
             throw new WebAppException("Resume already exist", r);
         }
         if (currentSize == MAX_LENGTH) {
@@ -58,7 +59,6 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     protected abstract int getIndex(String uuid);
-
 
 }
 
