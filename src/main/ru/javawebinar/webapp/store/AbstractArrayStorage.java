@@ -4,6 +4,7 @@ import main.ru.javawebinar.webapp.WebAppException;
 import main.ru.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import static java.util.Objects.requireNonNull;
 
@@ -34,6 +35,18 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
             throw new WebAppException("Max storage volume " + MAX_LENGTH + " is exceeded", r);
         }
         return idx;
+    }
+
+    @Override
+    public Collection<Resume> getAllSorted() {
+        // TODO implement after collections do sort
+        Resume[] copy = Arrays.copyOf(array, currentSize);
+        return Arrays.asList(copy);
+    }
+
+    @Override
+    public int size() {
+        return currentSize;
     }
 
     protected int getExistedIndex(String uuid) {

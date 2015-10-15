@@ -39,18 +39,6 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public Collection<Resume> getAllSorted() {
-        // TODO implement after collections do sort
-        Resume[] copy = Arrays.copyOf(array, currentSize);
-        return Arrays.asList(copy);
-    }
-
-    @Override
-    public int size() {
-        return currentSize;
-    }
-
-    @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < currentSize; i++) {
             if (array[i].getUuid().equals(uuid)) {
