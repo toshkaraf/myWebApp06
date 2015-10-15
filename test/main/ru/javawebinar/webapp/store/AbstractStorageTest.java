@@ -1,12 +1,16 @@
 package main.ru.javawebinar.webapp.store;
 
+import main.ru.javawebinar.webapp.WebAppException;
 import main.ru.javawebinar.webapp.model.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.Month;
+import java.util.Arrays;
+import java.util.List;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -15,7 +19,7 @@ import static org.junit.Assert.assertTrue;
  * 09.10.2015.
  */
 public class AbstractStorageTest {
-    private Resume R1, R2, R3;
+    private Resume R1, R2, R3, R4;
     private IStorage store = new ArrayStorage();
 
     {
@@ -48,6 +52,7 @@ public class AbstractStorageTest {
         store.save(R1);
         store.save(R2);
         store.save(R3);
+        System.out.println(1);
     }
 
     @After
@@ -55,17 +60,51 @@ public class AbstractStorageTest {
     }
 
     @Test
-    public void testLoad() throws Exception {
+    public void clear(){
+        store.clear();
+        assertTrue(store.getAllSorted().isEmpty());
+    }
+
+    @Test
+    public void testBothLoadAndSave() {
       //    assertTrue(store.size());
-        assertEquals(3,store.size());
+        assertEquals(3, store.size());
+        System.out.println(2);
         assertGetResume(R1);
         assertGetResume(R2);
         assertGetResume(R3);
     }
 
-    @Test
-    public void testSave() {
-        assertEquals("expected", "actual");
+    @Test (expected = Exception.class)
+    public void testSaveNotNull() {
+        System.out.println(3);
+        store.save(R4);
+    }
+
+    @Test (expected = Exception.class)
+    public void testSaveExistedResume(){
+        System.out.println(4);
+        store.save(R3);
+    }
+
+    @Test (expected = Exception.class)
+    public void testUpdateNotExistedResume() {
+        store.update(R4);
+    }
+
+    @Test (expected = Exception.class)
+    public void testUpdate(){
+        R1 = new Resume("Полное Имя11");
+        R1.addContact(ContactType.MAIL, "mail1@ya.ua");
+        R1.addContact(ContactType.PHONE, "11222");
+        store.update(R4);
+        assertGetResume(R1);
+    }
+
+    @Test (expected = WebAppException.class)
+    public void testDelete(){
+        store.delete(R2.getUuid());
+        store.load(R2.getUuid());
     }
 
     private void assertGetResume(Resume r) {
