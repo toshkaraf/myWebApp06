@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
  */
 public class AbstractStorageTest {
     private Resume R1, R2, R3;
-    private IStorage store = new SortedArrayStorage();
+    private IStorage store = new ArrayStorage();
 
     {
         R1 = new Resume("Полное Имя1");
@@ -56,7 +56,8 @@ public class AbstractStorageTest {
 
     @Test
     public void testLoad() throws Exception {
-        assertTrue(store.size() == 3);
+      //    assertTrue(store.size());
+        assertEquals(3,store.size());
         assertGetResume(R1);
         assertGetResume(R2);
         assertGetResume(R3);

@@ -17,15 +17,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected final Resume[] array = new Resume[MAX_LENGTH];
     protected int currentSize = 0;
 
+
     @Override
     public void clear() {
-        currentSize = 0;
         Arrays.fill(array, null); // let gc do his work
+        currentSize = 0;
     }
 
     @Override
     public int isRequestValid(Resume r) {
-//        log.info("save " + r);
         requireNonNull(r, "Resume must not be null");
         int idx = getIndex(r.getUuid());
         if (idx != -1) {

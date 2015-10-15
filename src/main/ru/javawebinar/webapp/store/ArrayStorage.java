@@ -13,11 +13,12 @@ import static java.util.Objects.requireNonNull;
  * 02.10.2015.
  */
 public class ArrayStorage extends AbstractArrayStorage {
-
     @Override
     public void save(Resume r) {
         isRequestValid(r);
+        log.info("save " + r);
         array[currentSize] = r;
+        currentSize += 1;
     }
     @Override
     public void update(Resume r) {
@@ -47,4 +48,9 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
         return -1;
     }
+
+ //   @Override
+ //   public int size() {
+ //       return currentSize;
+ //   }
 }
