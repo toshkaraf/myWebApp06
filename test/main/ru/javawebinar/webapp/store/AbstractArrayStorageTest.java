@@ -18,9 +18,9 @@ import static org.junit.Assert.assertTrue;
  * GKislin
  * 09.10.2015.
  */
-public class AbstractStorageTest {
+public class AbstractArrayStorageTest {
     private Resume R1, R2, R3, R4;
-    private IStorage store = new ArrayStorage();
+    protected IStorage store = new ArrayStorage();
 
     {
         R1 = new Resume("Полное Имя1");
@@ -52,7 +52,7 @@ public class AbstractStorageTest {
         store.save(R1);
         store.save(R2);
         store.save(R3);
-        System.out.println(1);
+
     }
 
     @After
@@ -69,7 +69,6 @@ public class AbstractStorageTest {
     public void testBothLoadAndSave() {
       //    assertTrue(store.size());
         assertEquals(3, store.size());
-        System.out.println(2);
         assertGetResume(R1);
         assertGetResume(R2);
         assertGetResume(R3);
@@ -77,13 +76,11 @@ public class AbstractStorageTest {
 
     @Test (expected = Exception.class)
     public void testSaveNotNull() {
-        System.out.println(3);
         store.save(R4);
     }
 
     @Test (expected = Exception.class)
     public void testSaveExistedResume(){
-        System.out.println(4);
         store.save(R3);
     }
 
