@@ -9,27 +9,27 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TestRunner {
-    private Class clazz;
+public class ClassTestRunner {
+    private Class testClass;
     private List<Method> beforeMethods;
     private List<Method> testMethods;
 
-    public TestRunner(String className) throws Exception {
-        clazz = Class.forName(className);
+    public ClassTestRunner(String className) throws Exception {
+        testClass = Class.forName(className);
         beforeMethods = getMethodsByAnnotation(Before.class);
         testMethods = getMethodsByAnnotation(Test.class);
     }
 
     public static void main(String[] args) throws Exception {
-        new TestRunner("main.ru.javawebinar.webapp.store.ArrayStorageTest").runAll();
-        new TestRunner("main.ru.javawebinar.webapp.store.SortedArrayStorageTest").runAll();
+        new ClassTestRunner("ru.javawebinar.webapp.storage.ArrayStorageTest").runAll();
+        new ClassTestRunner("ru.javawebinar.webapp.storage.SortedArrayStorageTest").runAll();
     }
 
     public void runAll() {
         int testsFailed = 0;
         int testsNumber = 0;
         System.out.println("-------------------------------------------");
-        System.out.println("RUNNING TESTS FOR " + clazz.toString());
+        System.out.println("RUNNING TESTS FOR " + testClass.toString());
         for (Method testMethod : testMethods) {
             testsNumber++;
             if (!runTest(testMethod)) {
@@ -44,13 +44,14 @@ public class TestRunner {
     public boolean runTest(Method testMethod) {
         Object instance;
         try {
-            instance = clazz.newInstance();
+            instance = testClass.newInstance();
             for (Method method : beforeMethods) {
                 method.invoke(instance);
             }
         } catch (InvocationTargetException | IllegalAccessException | InstantiationException e) {
             throw new IllegalStateException("Wrong test syntax");
         }
+
         try {
             testMethod.invoke(instance);
         } catch (IllegalAccessException e) {
@@ -66,7 +67,7 @@ public class TestRunner {
 
     private List<Method> getMethodsByAnnotation(Class annotationClass) {
         List<Method> annotatedMethods = new LinkedList<>();
-        for (Method method : clazz.getMethods()) {
+        for (Method method : testClass.getMethods()) {
             if (method.getAnnotation(annotationClass) != null) {
                 annotatedMethods.add(method);
             }
