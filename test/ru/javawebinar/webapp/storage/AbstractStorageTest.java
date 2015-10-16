@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * GKislin
@@ -115,9 +114,14 @@ public abstract class AbstractStorageTest {
         storage.save(R1);
     }
 
-    @Test(expected = WebAppException.class)
+    @Test
     public void testUpdateMissed() throws Exception {
-        Resume resume = new Resume("fullName_U1", "location_U1");
-        storage.update(resume);
+        try {
+            Resume resume = new Resume("fullName_U1", "location_U1");
+            storage.update(resume);
+        } catch (WebAppException e) {
+            return;
+        }
+        fail();
     }
 }
