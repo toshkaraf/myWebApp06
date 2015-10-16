@@ -1,5 +1,6 @@
 package ru.javawebinar.webapp.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public class OrganizationSection extends Section {
     private final List<Organization> organizations;
 
     public OrganizationSection(Organization... organizations) {
-        this(Arrays.asList(organizations));
+        this(new ArrayList<>(Arrays.asList(organizations)));
     }
 
     public OrganizationSection(List<Organization> organizations) {
