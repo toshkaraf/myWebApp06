@@ -21,9 +21,12 @@ public abstract class AbstractStorageTest {
     private Resume R1, R2, R3;
 
     //    http://stackoverflow.com/questions/3404301/whats-wrong-with-overridable-method-calls-in-constructors
-    private final IStorage storage = getStorage(); // bad!
+    private final IStorage storage;   // = getStorage(); bad!
+//    protected abstract IStorage getStorage();
 
-    protected abstract IStorage getStorage();
+    public AbstractStorageTest(IStorage storage) {
+        this.storage = storage;
+    }
 
     @Before
     public void setUp() throws Exception {
