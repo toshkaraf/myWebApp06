@@ -2,17 +2,14 @@ package ru.javawebinar.webapp.storage;
 
 import ru.javawebinar.webapp.model.Resume;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * GKislin
  * 16.10.2015.
  */
-public class MapStorage extends AbstractMapStorage{
-    public Map<String, Resume> storage = new TreeMap<>();
+public class MapStorage extends AbstractStorage{
+    public Map<String, Resume> storage = new HashMap<>();
 
     @Override
     protected boolean exist(String uuid) {
