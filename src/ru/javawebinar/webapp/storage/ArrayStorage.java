@@ -8,6 +8,7 @@ import ru.javawebinar.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
+
     @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < currentSize; i++) {

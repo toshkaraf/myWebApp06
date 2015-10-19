@@ -52,7 +52,7 @@ public class MapStorage extends AbstractMapStorage{
 
     @Override
     public int size() {
-        return 0;
+        return storage.size();
     }
 
 }
