@@ -13,7 +13,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     protected int getIndex(String uuid) {
         for (int i = 0; i < currentSize; i++) {
             if (array[i].getUuid().equals(uuid)) {
-                return i;
+                cursor = i;
+                return cursor;
             }
         }
         return -1;
@@ -32,7 +33,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void doDelete(String uuid) {
-        array[getIndex(uuid)] = array[--currentSize];
+        array[cursor] = array[--currentSize];
         array[currentSize] = null;
     }
 }

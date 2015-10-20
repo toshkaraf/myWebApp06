@@ -15,6 +15,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected static final int MAX_LENGTH = 100000;
     protected final Resume[] array = new Resume[MAX_LENGTH];
     protected int currentSize = 0;
+    protected int cursor = 0;
 
     protected abstract int getIndex(String uuid);
 
@@ -32,18 +33,15 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void set(int idx, Resume r);
 
     @Override
-    protected Resume doLoad(String uuid) {
-        return array[getIndex(uuid)];
+    protected Resume doLoad(String uuid) {return array[cursor];
     }
 
     @Override
-    protected void doUpdate(Resume r) {
-        set(getIndex(r.getUuid()), r);
+    protected void doUpdate(Resume r) {set(cursor, r);
     }
 
     @Override
-    public int size() {
-        return currentSize;
+    public int size() {return currentSize;
     }
 
     @Override

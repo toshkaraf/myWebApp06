@@ -37,17 +37,17 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void doDelete(String uuid) {
-        int idx = getIndex(uuid);
-        int numMoved = currentSize - idx - 1;
+        int numMoved = currentSize - cursor - 1;
         if (numMoved > 0) {
-            System.arraycopy(array, idx + 1, array, idx, numMoved);
-            System.arraycopy(sortedUuids, idx + 1, sortedUuids, idx, numMoved);
+            System.arraycopy(array, cursor + 1, array, cursor, numMoved);
+            System.arraycopy(sortedUuids, cursor + 1, sortedUuids, cursor, numMoved);
         }
         set(--currentSize, null);
     }
 
     @Override
     protected int getIndex(String uuid) {
-        return Arrays.binarySearch(sortedUuids, 0, currentSize, uuid);
+        cursor = Arrays.binarySearch(sortedUuids, 0, currentSize, uuid);
+        return cursor;
     }
 }

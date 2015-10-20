@@ -33,8 +33,7 @@ public class MapStorage extends AbstractStorage{
 
     @Override
     protected Resume doLoad(String uuid) {
-        storage.get(uuid);
-        return null;
+        return storage.get(uuid);
     }
 
     @Override
