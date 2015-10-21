@@ -15,11 +15,6 @@ public class ArrayListStorage extends AbstractListStorage {
     }
 
     @Override
-    protected void doUpdate(int index, Resume r) {
-        storage.add(index, r);
-    }
-
-    @Override
     protected Resume doLoad(int index, String uuid) {
        return storage.get(index);
     }

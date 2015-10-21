@@ -17,19 +17,7 @@ public class LinkedListStorage extends AbstractListStorage {
         super(new LinkedList<>());
     }
 
-    @Override
-    protected void doUpdate(int index, Resume r) {
-        storage.remove(r);
-//        Iterator<Resume> i = storage.iterator();
-//        while (i.hasNext()) {
-//            Resume resumeFromList = i.next();
-//            if (resumeFromList.getUuid().equals(r.getUuid())) {
-//                i.remove();
-        storage.add(r);
-//                return;
-//            }
-//        }
-    }
+
 
     @Override
     protected void doDelete(int index, String uuid) {

@@ -27,6 +27,20 @@ public abstract class AbstractListStorage extends AbstractStorage {
     }
 
     @Override
+    protected void doUpdate(int index, Resume r) {
+        storage.remove(r);
+//        Iterator<Resume> i = storage.iterator();
+//        while (i.hasNext()) {
+//            Resume resumeFromList = i.next();
+//            if (resumeFromList.getUuid().equals(r.getUuid())) {
+//                i.remove();
+        storage.add(r);
+//                return;
+//            }
+//        }
+    }
+
+    @Override
     protected void doClear() {
         storage.clear();
     }
