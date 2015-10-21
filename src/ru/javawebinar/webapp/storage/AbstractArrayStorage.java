@@ -32,13 +32,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void set(int idx, Resume r);
 
     @Override
-    protected Resume doLoad(String uuid) {
-        return array[getIndex(uuid)];
+    protected Resume doLoad(int index, String uuid) {
+        return array[index];
     }
 
     @Override
-    protected void doUpdate(Resume r) {
-        set(getIndex(r.getUuid()), r);
+    protected void doUpdate(int index,Resume r) {
+        set(index, r);
     }
 
     @Override

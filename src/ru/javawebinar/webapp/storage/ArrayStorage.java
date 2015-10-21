@@ -30,8 +30,8 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void doDelete(String uuid) {
-        array[getIndex(uuid)] = array[--currentSize];
+    protected void doDelete(int index, String uuid) {
+        array[index] = array[--currentSize];
         array[currentSize] = null;
     }
 }

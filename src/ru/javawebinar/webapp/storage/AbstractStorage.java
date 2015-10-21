@@ -44,31 +44,31 @@ public abstract class AbstractStorage implements IStorage {
     public void update(Resume r) {
         log.info("Update " + r);
         requireNonNull(r, "Resume must not be null");
-        index = mustExist(r.getUuid());
-        doUpdate(r);
+        int index = mustExist(r.getUuid());
+        doUpdate(index,r);
     }
 
-    protected abstract void doUpdate(Resume r);
+    protected abstract void doUpdate(int index,Resume r);
 
     @Override
     public Resume load(String uuid) {
         log.info("Load " + uuid);
         requireNonNull(uuid, "UUID must not be null");
-        mustExist(uuid);
-        return doLoad(uuid);
+        int index = mustExist(uuid);
+        return doLoad(index, uuid);
     }
 
-    protected abstract Resume doLoad(String uuid);
+    protected abstract Resume doLoad(int index, String uuid);
 
     @Override
     public void delete(String uuid) {
         log.info("Delete " + uuid);
         requireNonNull(uuid, "UUID must not be null");
-        mustExist(uuid);
-        doDelete(uuid);
+        int index = mustExist(uuid);
+        doDelete(index, uuid);
     }
 
-    protected abstract void doDelete(String uuid);
+    protected abstract void doDelete(int index, String uuid);
 
     @Override
     public Collection<Resume> getAllSorted() {
@@ -91,7 +91,7 @@ public abstract class AbstractStorage implements IStorage {
         }
     }
 
-    private int index mustExist(String uuid) {
+    private int mustExist(String uuid) {
         int index = exist(uuid);
         if (index<0){
             throw new WebAppException(ExceptionType.NOT_FOUND, uuid);

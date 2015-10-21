@@ -12,8 +12,8 @@ public class MapStorage extends AbstractStorage{
     public Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected boolean exist(String uuid) {
-        return storage.containsKey(uuid);
+    protected int exist(String uuid) {
+        return storage.containsKey(uuid) ? 1 : -1;
     }
 
     @Override
@@ -27,17 +27,17 @@ public class MapStorage extends AbstractStorage{
     }
 
     @Override
-    protected void doUpdate(Resume r) {
+    protected void doUpdate(int index,Resume r) {
         storage.put(r.getUuid(),r);
     }
 
     @Override
-    protected Resume doLoad(String uuid) {
+    protected Resume doLoad(int index,String uuid) {
         return storage.get(uuid);
     }
 
     @Override
-    protected void doDelete(String uuid) {
+    protected void doDelete(int index, String uuid) {
         storage.remove(uuid);
     }
 

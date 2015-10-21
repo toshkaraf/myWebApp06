@@ -17,11 +17,13 @@ public abstract class AbstractListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean exist(String uuid) {
-        for (Resume r : storage) {
-            if (uuid.equals(r.getUuid())) return true;
+    protected int exist(String uuid) {
+        int index = 0;
+        for (Resume r : storage){
+            if (uuid.equals(r.getUuid())) return index;
+                index++;
         }
-        return false;
+        return -1;
     }
 
     @Override
@@ -34,42 +36,7 @@ public abstract class AbstractListStorage extends AbstractStorage {
         storage.add(r);
     }
 
-    @Override
-    protected void doUpdate(Resume r) {
-//        storage.remove(r);
-        Iterator<Resume> i = storage.iterator();
-        while (i.hasNext()) {
-            Resume resumeFromList = i.next();
-            if (resumeFromList.getUuid().equals(r.getUuid())) {
-                i.remove();
-                storage.add(r);
-                return;
-            }
-        }
-    }
-
-    @Override
-    protected Resume doLoad(String uuid) {
-        for (Resume r : storage) {
-            if (uuid.equals(r.getUuid())) return r;
-        }
-        return null;
-    }
-
-
-    @Override
-    protected void doDelete(String uuid) {
-        Iterator<Resume> i = storage.iterator();
-        while (i.hasNext()) {
-            Resume resumeFromList = i.next();
-            if (resumeFromList.getUuid().equals(uuid)) {
-                i.remove();
-                return;
-            }
-        }
-    }
-
-    @Override
+     @Override
     protected List<Resume> doGetAll() {
         return storage;
     }
