@@ -8,13 +8,11 @@ import ru.javawebinar.webapp.model.Resume;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-
     @Override
     protected int getIndex(String uuid) {
         for (int i = 0; i < currentSize; i++) {
             if (array[i].getUuid().equals(uuid)) {
-                cursor = i;
-                return cursor;
+                return i;
             }
         }
         return -1;
@@ -33,7 +31,7 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void doDelete(String uuid) {
-        array[cursor] = array[--currentSize];
+        array[getIndex(uuid)] = array[--currentSize];
         array[currentSize] = null;
     }
 }

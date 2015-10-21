@@ -20,7 +20,7 @@ public abstract class AbstractStorage implements IStorage {
     //    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
     protected final Logger log = Logger.getLogger(getClass().getName());
 
-    protected abstract boolean exist(String uuid);
+    protected abstract int exist(String uuid);
 
     @Override
     public void clear() {
@@ -44,7 +44,7 @@ public abstract class AbstractStorage implements IStorage {
     public void update(Resume r) {
         log.info("Update " + r);
         requireNonNull(r, "Resume must not be null");
-        mustExist(r.getUuid());
+        index = mustExist(r.getUuid());
         doUpdate(r);
     }
 
@@ -86,14 +86,16 @@ public abstract class AbstractStorage implements IStorage {
     protected abstract List<Resume> doGetAll();
 
     private void mustNotExist(String uuid) {
-        if (exist(uuid)) {
+        if (exist(uuid)>=0) {
             throw new WebAppException(ExceptionType.ALREADY_EXISTS, uuid);
         }
     }
 
-    private void mustExist(String uuid) {
-        if (!exist(uuid)) {
+    private int index mustExist(String uuid) {
+        int index = exist(uuid);
+        if (index<0){
             throw new WebAppException(ExceptionType.NOT_FOUND, uuid);
         }
+        else return index;
     }
 }
