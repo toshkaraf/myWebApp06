@@ -8,7 +8,6 @@ public enum ExceptionType {
     private String message;
 
     ExceptionType(String message) {
-
         this.message = message;
     }
 

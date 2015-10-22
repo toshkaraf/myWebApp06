@@ -1,7 +1,9 @@
 package ru.javawebinar.webapp.storage;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import ru.javawebinar.webapp.exceptions.WebAppException;
 import ru.javawebinar.webapp.model.*;
 
@@ -64,6 +66,9 @@ public abstract class AbstractStorageTest {
         assertEquals(size, storage.size());
     }
 
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
+
     @Test
     public void testClear() throws Exception {
         storage.clear();
@@ -84,13 +89,15 @@ public abstract class AbstractStorageTest {
         assertGet(R3);
     }
 
-    @Test(expected = WebAppException.class)
+    @Test
     public void testDeleteNotFound() throws Exception {
+        exception.expectMessage("Resume not found in storage");
         storage.load("dummy");
     }
 
-    @Test(expected = WebAppException.class)
+    @Test
     public void testDelete() throws Exception {
+        exception.expectMessage("Resume not found in storage");
         storage.delete(R1.getUuid());
         assertSize(2);
         assertGet(R2);
@@ -109,8 +116,9 @@ public abstract class AbstractStorageTest {
         assertSize(3);
     }
 
-    @Test(expected = WebAppException.class)
+    @Test
     public void testSaveAlreadyExist() throws Exception {
+        exception.expectMessage("Resume is already exist in storage");
         storage.save(R1);
     }
 
