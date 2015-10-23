@@ -3,34 +3,41 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 /**
  * GKislin
  * 23.10.2015.
  */
 public class MainFiles {
+
+    public static final String LOG_FILE = "./log/webapp.log.0.1";
+
     public static void main(String[] args) {
         System.out.println("\nBy BufferedReader\n");
-        BufferedReader reader = null;
 
-        try {
-            reader = new BufferedReader(
-                    new InputStreamReader(
-                            new FileInputStream("./log/webapp.log.0.1"), StandardCharsets.UTF_8));
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(
+                        new FileInputStream(LOG_FILE), StandardCharsets.UTF_8))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
+
+            System.out.println("\nBy stream iterator\n");
+            Stream<String> lines = Files.lines(Paths.get(LOG_FILE), StandardCharsets.UTF_8);
+            Iterator<String> it = lines.iterator();
+            while (it.hasNext()) {
+                System.out.println(it.next());
+            }
+
+            System.out.println("\nBy stream lambda\n");
+            Files.lines(Paths.get(LOG_FILE), StandardCharsets.UTF_8).forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    System.out.println("Warning " + e.getMessage());
-                }
-            }
         }
     }
 }
