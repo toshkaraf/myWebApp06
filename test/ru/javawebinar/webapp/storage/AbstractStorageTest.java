@@ -1,7 +1,10 @@
 package ru.javawebinar.webapp.storage;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import ru.javawebinar.webapp.exceptions.ExceptionType;
 import ru.javawebinar.webapp.exceptions.WebAppException;
 import ru.javawebinar.webapp.model.*;
 
@@ -10,7 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * GKislin
@@ -26,6 +30,9 @@ public abstract class AbstractStorageTest {
     public AbstractStorageTest(IStorage storage) {
         this.storage = storage;
     }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -84,17 +91,20 @@ public abstract class AbstractStorageTest {
         assertGet(R3);
     }
 
-    @Test(expected = WebAppException.class)
     public void testDeleteNotFound() throws Exception {
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
         storage.load("dummy");
     }
 
-    @Test(expected = WebAppException.class)
+    @Test
     public void testDelete() throws Exception {
         storage.delete(R1.getUuid());
         assertSize(2);
         assertGet(R2);
         assertGet(R3);
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
         assertGet(R1);
     }
 
@@ -109,19 +119,18 @@ public abstract class AbstractStorageTest {
         assertSize(3);
     }
 
-    @Test(expected = WebAppException.class)
+    @Test
     public void testSaveAlreadyExist() throws Exception {
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.ALREADY_EXISTS.getMessage());
         storage.save(R1);
     }
 
     @Test
     public void testUpdateMissed() throws Exception {
-        try {
-            Resume resume = new Resume("fullName_U1", "location_U1");
-            storage.update(resume);
-        } catch (WebAppException e) {
-            return;
-        }
-        fail();
+        Resume resume = new Resume("fullName_U1", "location_U1");
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
+        storage.update(resume);
     }
 }
