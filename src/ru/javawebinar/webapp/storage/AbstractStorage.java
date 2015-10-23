@@ -16,11 +16,11 @@ import static java.util.Objects.requireNonNull;
  * GKislin
  * 09.10.2015.
  */
-public abstract class AbstractStorage implements IStorage {
+public abstract class AbstractStorage<C> implements IStorage {
     //    private static final Logger LOG = Logger.getLogger(AbstractStorage.class.getName());
     protected final Logger log = Logger.getLogger(getClass().getName());
 
-    protected abstract boolean exist(String uuid);
+    protected abstract boolean exist(String uuid, C ctx);
 
     @Override
     public void clear() {
@@ -28,47 +28,57 @@ public abstract class AbstractStorage implements IStorage {
         doClear();
     }
 
+    protected C getContext(Resume r) {
+        return getContext(r.getUuid());
+    }
+
+    protected abstract C getContext(String uuid);
+
     protected abstract void doClear();
 
     @Override
     public void save(Resume r) {
         log.info("Save " + r);
         requireNonNull(r, "Resume must not be null");
-        mustNotExist(r.getUuid());
-        doSave(r);
+        C ctx = getContext(r);
+        mustNotExist(r.getUuid(), ctx);
+        doSave(r, ctx);
     }
 
-    protected abstract void doSave(Resume r);
+    protected abstract void doSave(Resume r, C ctx);
 
     @Override
     public void update(Resume r) {
         log.info("Update " + r);
         requireNonNull(r, "Resume must not be null");
-        mustExist(r.getUuid());
-        doUpdate(r);
+        C ctx = getContext(r);
+        mustExist(r.getUuid(), ctx);
+        doUpdate(r, ctx);
     }
 
-    protected abstract void doUpdate(Resume r);
+    protected abstract void doUpdate(Resume r, C ctx);
 
     @Override
     public Resume load(String uuid) {
         log.info("Load " + uuid);
         requireNonNull(uuid, "UUID must not be null");
-        mustExist(uuid);
-        return doLoad(uuid);
+        C ctx = getContext(uuid);
+        mustExist(uuid, ctx);
+        return doLoad(uuid, ctx);
     }
 
-    protected abstract Resume doLoad(String uuid);
+    protected abstract Resume doLoad(String uuid, C ctx);
 
     @Override
     public void delete(String uuid) {
         log.info("Delete " + uuid);
         requireNonNull(uuid, "UUID must not be null");
-        mustExist(uuid);
-        doDelete(uuid);
+        C ctx = getContext(uuid);
+        mustExist(uuid, ctx);
+        doDelete(uuid, ctx);
     }
 
-    protected abstract void doDelete(String uuid);
+    protected abstract void doDelete(String uuid, C ctx);
 
     @Override
     public Collection<Resume> getAllSorted() {
@@ -85,14 +95,14 @@ public abstract class AbstractStorage implements IStorage {
 
     protected abstract List<Resume> doGetAll();
 
-    private void mustNotExist(String uuid) {
-        if (exist(uuid)) {
+    private void mustNotExist(String uuid, C ctx) {
+        if (exist(uuid, ctx)) {
             throw new WebAppException(ExceptionType.ALREADY_EXISTS, uuid);
         }
     }
 
-    private void mustExist(String uuid) {
-        if (!exist(uuid)) {
+    private void mustExist(String uuid, C ctx) {
+        if (!exist(uuid, ctx)) {
             throw new WebAppException(ExceptionType.NOT_FOUND, uuid);
         }
     }
