@@ -6,7 +6,8 @@ import ru.javawebinar.webapp.model.Resume;
  * GKislin
  * 02.10.2015.
  */
-public class ArrayStorage extends AbstractArrayStorage {
+//TODO implement
+abstract public class ArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected int getIndex(String uuid) {
@@ -24,13 +25,13 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void doSave(Resume r) {
+    protected void doSave(Resume r, Object ctx) {
         checkExceeded(r);
         array[currentSize++] = r;
     }
 
     @Override
-    protected void doDelete(String uuid) {
+    protected void doDelete(String uuid, Object ctx) {
         array[getIndex(uuid)] = array[--currentSize];
         array[currentSize] = null;
     }

@@ -5,11 +5,17 @@ import ru.javawebinar.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
     private List<Resume> list = new ArrayList<>();
 
-    protected int getIndex(String uuid) {
+    @Override
+    protected boolean exist(String uuid, Integer idx) {
+        return idx >= 0;
+    }
+
+    @Override
+    protected Integer getContext(String uuid) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).getUuid().equals(uuid)) {
                 return i;
@@ -19,33 +25,28 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean exist(String uuid) {
-        return getIndex(uuid) >= 0;
-    }
-
-    @Override
     protected void doClear() {
         list.clear();
     }
 
     @Override
-    protected void doSave(Resume r) {
+    protected void doSave(Resume r, Integer idx) {
         list.add(r);
     }
 
     @Override
-    protected void doUpdate(Resume r) {
-        list.set(getIndex(r.getUuid()), r);
+    protected void doUpdate(Resume r, Integer idx) {
+        list.set(idx, r);
     }
 
     @Override
-    protected Resume doLoad(String uuid) {
-        return list.get(getIndex(uuid));
+    protected Resume doLoad(String uuid, Integer idx) {
+        return list.get(idx);
     }
 
     @Override
-    protected void doDelete(String uuid) {
-        list.remove(getIndex(uuid));
+    protected void doDelete(String uuid, Integer idx) {
+        list.remove((idx).intValue());
     }
 
     @Override

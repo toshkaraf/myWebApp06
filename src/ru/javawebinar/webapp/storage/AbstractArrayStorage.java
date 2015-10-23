@@ -19,7 +19,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract int getIndex(String uuid);
 
     @Override
-    protected boolean exist(String uuid) {
+    protected boolean exist(String uuid, Object ctx) {
         return getIndex(uuid) >= 0;
     }
 
@@ -32,12 +32,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected abstract void set(int idx, Resume r);
 
     @Override
-    protected Resume doLoad(String uuid) {
+    protected Resume doLoad(String uuid, Object ctx) {
         return array[getIndex(uuid)];
     }
 
     @Override
-    protected void doUpdate(Resume r) {
+    protected void doUpdate(Resume r, Object ctx) {
         set(getIndex(r.getUuid()), r);
     }
 

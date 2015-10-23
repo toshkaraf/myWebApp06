@@ -34,5 +34,14 @@ public class MainList {
         List<Integer> integers = Collections.synchronizedList(list);
         List<Integer> integers2 = Collections.unmodifiableList(list);
         List<Integer> integers3 = Collections.singletonList(1);
+
+        List<String> listStr = new ArrayList<>();
+        listStr.add("fgghf");
+
+        ((List)listStr).add(2);
+        System.out.println(list.getClass()==listStr.getClass());
+        System.out.println(listStr);
+        Object o = listStr.get(1);
+        System.out.println(o.getClass());
     }
 }

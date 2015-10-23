@@ -1,5 +1,7 @@
 package ru.javawebinar.webapp.storage;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,6 +23,24 @@ import static org.junit.Assert.assertTrue;
  * 09.10.2015.
  */
 public abstract class AbstractStorageTest {
+    protected static final class ExceptionTypeMatcher extends BaseMatcher<ExceptionType>{
+        private final ExceptionType type;
+
+        public ExceptionTypeMatcher(ExceptionType type) {
+            this.type = type;
+        }
+
+        @Override
+        public boolean matches(Object item) {
+            return ((WebAppException) item).getType() == type;
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            return;
+        }
+    }
+
     private Resume R1, R2, R3;
 
     //    http://stackoverflow.com/questions/3404301/whats-wrong-with-overridable-method-calls-in-constructors
@@ -49,13 +69,13 @@ public abstract class AbstractStorageTest {
         R1.addSection(SectionType.EXPERIENCE,
                 new OrganizationSection(
                         new Organization("Organization11", null,
-                                new Position(2005, Month.JANUARY, "position1", "content1"),
-                                new Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
+                                new Organization.Position(2005, Month.JANUARY, "position1", "content1"),
+                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "position2", "content2"))));
         R1.addSection(SectionType.EDUCATION,
                 new OrganizationSection(
                         new Organization("Institute", null,
-                                new Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
-                                new Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
+                                new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
+                                new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
                         new Organization("Organization12", "http://Organization12.ru")));
         storage.clear();
         storage.save(R1);
@@ -91,9 +111,11 @@ public abstract class AbstractStorageTest {
         assertGet(R3);
     }
 
+    @Test
     public void testDeleteNotFound() throws Exception {
         thrown.expect(WebAppException.class);
         thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
+        thrown.expect(new ExceptionTypeMatcher(ExceptionType.NOT_FOUND));
         storage.load("dummy");
     }
 

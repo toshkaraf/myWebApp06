@@ -6,6 +6,6 @@ package ru.javawebinar.webapp.storage;
  */
 public class ArrayStorageTest extends AbstractStorageTest {
     public ArrayStorageTest() {
-        super(new ArrayStorage());
+        super(new ListStorage());
     }
 }

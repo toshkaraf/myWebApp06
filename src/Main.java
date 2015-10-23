@@ -1,7 +1,5 @@
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * User: gkislin
@@ -34,15 +32,5 @@ public class Main {
             sb.append(i);
         }
         System.out.println(sb.toString());
-
-
-        Map<Character, Integer> map = new LinkedHashMap<Character, Integer>() {{
-            for (char ch = 'A'; ch <= 'Z'; ch++) {
-                put(ch, (int) ch);
-            }
-        }};
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            System.out.println("" + entry.getKey() + ":=" + entry.getValue());
-        }
     }
 }

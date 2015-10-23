@@ -11,13 +11,19 @@ import java.util.Map;
  * GKislin
  * 16.10.2015.
  */
-public class MapStorage extends AbstractStorage {
+public class MapStorage extends AbstractStorage<String> {
 
     private Map<String, Resume> map = new HashMap<>();
 
     @Override
-    protected boolean exist(String uuid) {
+    protected boolean exist(String uuid, String ctx) {
         return map.containsKey(uuid);
+    }
+
+    @Override
+    //TODO Optional investigate context as Map.Entry
+    protected String getContext(String uuid) {
+        return uuid;
     }
 
     @Override
@@ -26,22 +32,22 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doSave(Resume r) {
-        map.put(r.getUuid(), r);
+    protected void doSave(Resume r, String uuid) {
+        map.put(uuid, r);
     }
 
     @Override
-    protected void doUpdate(Resume r) {
-        map.put(r.getUuid(), r);
+    protected void doUpdate(Resume r, String uuid) {
+        map.put(uuid, r);
     }
 
     @Override
-    protected Resume doLoad(String uuid) {
+    protected Resume doLoad(String uuid, String ctx) {
         return map.get(uuid);
     }
 
     @Override
-    protected void doDelete(String uuid) {
+    protected void doDelete(String uuid, String ctx) {
         map.remove(uuid);
     }
 

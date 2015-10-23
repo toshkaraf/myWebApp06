@@ -2,6 +2,7 @@ import ru.javawebinar.webapp.model.ContactType;
 import ru.javawebinar.webapp.model.Resume;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -27,6 +28,15 @@ public class MainMap {
         System.out.println(contacts);
 
         final Map<Resume, Integer> resumes = new HashMap<>();
+
+        Map<Character, Integer> map = new LinkedHashMap<Character, Integer>() {{
+            for (char ch = 'A'; ch <= 'Z'; ch++) {
+                put(ch, (int) ch);
+            }
+        }};
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            System.out.println("" + entry.getKey() + ":=" + entry.getValue());
+        }
 
     }
 }

@@ -8,7 +8,8 @@ import java.util.Arrays;
  * GKislin
  * 09.10.2015.
  */
-public class SortedArrayStorage extends AbstractArrayStorage {
+//TODO implement
+abstract public class SortedArrayStorage extends AbstractArrayStorage {
 
     private String[] sortedUuids = new String[MAX_LENGTH];
 
@@ -25,7 +26,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void doSave(Resume r) {
+    public void doSave(Resume r, Object ctx) {
         checkExceeded(r);
 //        http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
         int insertIdx = -getIndex(r.getUuid()) - 1;
@@ -36,7 +37,7 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void doDelete(String uuid) {
+    public void doDelete(String uuid, Object ctx) {
         int idx = getIndex(uuid);
         int numMoved = currentSize - idx - 1;
         if (numMoved > 0) {
