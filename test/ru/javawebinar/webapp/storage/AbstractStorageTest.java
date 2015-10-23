@@ -2,6 +2,7 @@ package ru.javawebinar.webapp.storage;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -77,10 +78,14 @@ public abstract class AbstractStorageTest {
                                 new Organization.Position(1996, Month.JANUARY, 2000, Month.DECEMBER, "aspirant", null),
                                 new Organization.Position(2001, Month.MARCH, 2005, Month.JANUARY, "student", "IT facultet")),
                         new Organization("Organization12", "http://Organization12.ru")));
-        storage.clear();
         storage.save(R1);
         storage.save(R2);
         storage.save(R3);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        storage.clear();
     }
 
     private void assertGet(Resume r) {
