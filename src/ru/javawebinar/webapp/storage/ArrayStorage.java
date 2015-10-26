@@ -25,13 +25,13 @@ abstract public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void doSave(Resume r, Object ctx) {
+    protected void doSave(Resume r, Integer ctx) {
         checkExceeded(r);
         array[currentSize++] = r;
     }
 
     @Override
-    protected void doDelete(String uuid, Object ctx) {
+    protected void doDelete(String uuid, Integer ctx) {
         array[getIndex(uuid)] = array[--currentSize];
         array[currentSize] = null;
     }

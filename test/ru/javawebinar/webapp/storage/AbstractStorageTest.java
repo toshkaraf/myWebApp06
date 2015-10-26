@@ -2,6 +2,7 @@ package ru.javawebinar.webapp.storage;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,6 +25,19 @@ import static org.junit.Assert.assertTrue;
  * 09.10.2015.
  */
 public abstract class AbstractStorageTest {
+
+    public static final BaseMatcher<ExceptionType> MATCHER = new BaseMatcher<ExceptionType>() {
+        @Override
+        public void describeTo(Description description) {
+
+        }
+
+        @Override
+        public boolean matches(Object o) {
+            return false;
+        }
+    };
+
     protected static final class ExceptionTypeMatcher extends BaseMatcher<ExceptionType>{
         private final ExceptionType type;
 
@@ -121,6 +135,7 @@ public abstract class AbstractStorageTest {
         thrown.expect(WebAppException.class);
         thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
         thrown.expect(new ExceptionTypeMatcher(ExceptionType.NOT_FOUND));
+        thrown.expect(MATCHER);
         storage.load("dummy");
     }
 

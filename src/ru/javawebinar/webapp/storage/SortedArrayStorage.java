@@ -26,7 +26,7 @@ abstract public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void doSave(Resume r, Object ctx) {
+    public void doSave(Resume r, Integer ctx) {
         checkExceeded(r);
 //        http://codereview.stackexchange.com/questions/36221/binary-search-for-inserting-in-array#answer-36239
         int insertIdx = -getIndex(r.getUuid()) - 1;
@@ -37,7 +37,7 @@ abstract public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    public void doDelete(String uuid, Object ctx) {
+    public void doDelete(String uuid, Integer ctx) {
         int idx = getIndex(uuid);
         int numMoved = currentSize - idx - 1;
         if (numMoved > 0) {
