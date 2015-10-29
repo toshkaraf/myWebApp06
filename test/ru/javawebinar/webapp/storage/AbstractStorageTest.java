@@ -1,6 +1,5 @@
 package ru.javawebinar.webapp.storage;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -98,10 +97,10 @@ public abstract class AbstractStorageTest {
         storage.save(R3);
     }
 
-//    @After
-//    public void tearDown() throws Exception {
-//        storage.clear();
-//    }
+    @After
+    public void tearDown() throws Exception {
+        storage.clear();
+    }
 
     private void assertGet(Resume r) {
         assertTrue(storage.load(r.getUuid()).equals(r));
@@ -131,14 +130,14 @@ public abstract class AbstractStorageTest {
         assertGet(R3);
     }
 
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        thrown.expect(WebAppException.class);
-//        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
-//        thrown.expect(new ExceptionTypeMatcher(ExceptionType.NOT_FOUND));
-//        thrown.expect(MATCHER);
-//        storage.load("dummy");
-//    }
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
+        thrown.expect(new ExceptionTypeMatcher(ExceptionType.NOT_FOUND));
+        thrown.expect(MATCHER);
+        storage.load("dummy");
+    }
 
     @Test
     public void testDelete() throws Exception {
@@ -152,11 +151,11 @@ public abstract class AbstractStorageTest {
     }
 
 
-//    @Test
-//    public void testGetAllSorted() throws Exception {
-//        List<Resume> list = Arrays.asList(R1, R2, R3);
-//        assertEquals(list, new ArrayList<>(storage.getAllSorted()));
-//    }
+    @Test
+    public void testGetAllSorted() throws Exception {
+        List<Resume> list = Arrays.asList(R1, R2, R3);
+        assertEquals(list, new ArrayList<>(storage.getAllSorted()));
+    }
 
     @Test
     public void testSize() throws Exception {

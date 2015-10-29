@@ -53,9 +53,7 @@ public class DataStreamFileStorage extends AbstractFileStorage {
 
     @Override
     protected void doSave(Resume r, File file) {
-        try {
-            file.renameTo(new File("./storage/" + r.getUuid()));
-            if (!file.createNewFile()) {
+        try {if (!file.createNewFile()) {
                 throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
             }
             try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
