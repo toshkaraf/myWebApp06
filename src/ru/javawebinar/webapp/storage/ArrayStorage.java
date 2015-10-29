@@ -6,7 +6,6 @@ import ru.javawebinar.webapp.model.Resume;
  * GKislin
  * 02.10.2015.
  */
-//TODO implement
 abstract public class ArrayStorage extends AbstractArrayStorage {
 
     @Override

@@ -8,7 +8,6 @@ import java.util.Arrays;
  * GKislin
  * 09.10.2015.
  */
-//TODO implement
 abstract public class SortedArrayStorage extends AbstractArrayStorage {
 
     private String[] sortedUuids = new String[MAX_LENGTH];

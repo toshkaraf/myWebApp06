@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.time.Month;
 import java.util.logging.LogManager;
 
+import static ru.javawebinar.webapp.model.SectionType.OBJECTIVE;
+
 /**
  * GKislin
  * 08.10.2015.
@@ -42,6 +44,9 @@ public class MainTestStorage {
     }
 
     private void test() {
+
+            System.out.println("///////////////////"+OBJECTIVE.name());
+
         store.save(R1);
         store.save(R2);
         store.save(R3);
