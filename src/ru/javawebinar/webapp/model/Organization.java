@@ -59,10 +59,29 @@ public class Organization {
     }
 
     public static class Position {
+
         private final LocalDate startDate;
         private final LocalDate endDate;
         private final String title;
         private final String description;
+
+        public LocalDate getStartDate() {
+            return startDate;
+        }
+
+        public LocalDate getEndDate() {
+            return endDate;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+
 
         public Position(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);

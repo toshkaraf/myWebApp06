@@ -2,10 +2,11 @@ package ru.javawebinar.webapp.storage;
 
 import ru.javawebinar.webapp.exceptions.ExceptionType;
 import ru.javawebinar.webapp.exceptions.WebAppException;
-import ru.javawebinar.webapp.model.ContactType;
-import ru.javawebinar.webapp.model.Resume;
+import ru.javawebinar.webapp.model.*;
+import ru.javawebinar.webapp.model.Organization.Position;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,8 +58,59 @@ public class DataStreamFileStorage extends AbstractFileStorage {
                     dos.writeUTF(entry.getKey().name());
                     dos.writeUTF(entry.getValue());
                 }
+                for (Map.Entry<SectionType, Section> entry : r.getSections().entrySet()) {
+                    SectionType sectionType = entry.getKey();
+                        switch (sectionType){
+                            case OBJECTIVE:
+                                dos.writeUTF(((TextSection) entry.getValue()).getContent());
+                                break;
+                            case ACHIEVEMENT:
+                                MultiTextSection achievementTextSection = (MultiTextSection) entry.getValue();
+                                List<String> ats = achievementTextSection.getLines();
+                                dos.writeInt(ats.size());
+                                for (String line : ats) dos.writeUTF(line);
+                                break;
+                            case QUALIFICATIONS:
+                                MultiTextSection qualificationMultiTextSection = (MultiTextSection) entry.getValue();
+                                List<String> qmts = qualificationMultiTextSection.getLines();
+                                dos.writeInt(qmts.size());
+                                for (String line : qmts) dos.writeUTF(line);
+                                break;
+                            case EDUCATION:
+                                OrganizationSection educationalOrganizationSection = (OrganizationSection) entry.getValue();
+                                List<Organization> educationOS = educationalOrganizationSection.getOrganizations();
+                                for (Organization org : educationOS) {
+                                    dos.writeUTF(org.getHomePage().getName());
+                                    dos.writeUTF(org.getHomePage().getUrl());
+                                    List<Position> positions = org.getPositions();
+                                    dos.writeInt(positions.size());
+                                    for (Position pos : positions) {
+                                        dos.writeUTF(pos.getStartDate().toString());
+                                        dos.writeUTF(pos.getEndDate().toString());
+                                        dos.writeUTF(pos.getTitle());
+                                        dos.writeUTF(pos.getDescription());
+                                    }
+                                }
+                                break;
+                            case EXPERIENCE:
+                                OrganizationSection experienceOrganizationSection = (OrganizationSection) entry.getValue();
+                                List<Organization> experienceOS = experienceOrganizationSection.getOrganizations();
+                                for (Organization org : experienceOS) {
+                                    dos.writeUTF(org.getHomePage().getName());
+                                    dos.writeUTF(org.getHomePage().getUrl());
+                                    List<Position> positions = org.getPositions();
+                                    dos.writeInt(positions.size());
+                                    for (Position pos : positions) {
+                                        dos.writeUTF(pos.getStartDate().toString());
+                                        dos.writeUTF(pos.getEndDate().toString());
+                                        dos.writeUTF(pos.getTitle());
+                                        dos.writeUTF(pos.getDescription());
+                                    }
+                                }
+                                break;
+                        }
+                }
             }
-            //TODO implements section
         } catch (IOException e) {
             throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
         }
@@ -79,7 +131,69 @@ public class DataStreamFileStorage extends AbstractFileStorage {
                 for (int i = 0; i < contactSize; i++) {
                     r.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
                 }
-                //TODO implements section
+                String objective = dis.readUTF();
+                int achievementSize = dis.readInt();
+                List<String> achievements = new LinkedList<>();
+                for (int a = 0; a < sectionsSize; a++){
+                achievements.add(dis.readUTF());
+
+
+                    }
+
+
+//                    Map.Entry<SectionType, Section> entry : r.getSections().entrySet()
+//                    SectionType sectionType = entry.getKey();
+//                    switch (sectionType){
+//                        case OBJECTIVE:
+//                            dos.writeUTF(((TextSection) entry.getValue()).getContent());
+//                            break;
+//                        case ACHIEVEMENT:
+//                            MultiTextSection achievementTextSection = (MultiTextSection) entry.getValue();
+//                            List<String> ats = achievementTextSection.getLines();
+//                            dos.writeInt(ats.size());
+//                            for (String line : ats) dos.writeUTF(line);
+//                            break;
+//                        case QUALIFICATIONS:
+//                            MultiTextSection qualificationMultiTextSection = (MultiTextSection) entry.getValue();
+//                            List<String> qmts = qualificationMultiTextSection.getLines();
+//                            dos.writeInt(qmts.size());
+//                            for (String line : qmts) dos.writeUTF(line);
+//                            break;
+//                        case EDUCATION:
+//                            OrganizationSection educationalOrganizationSection = (OrganizationSection) entry.getValue();
+//                            List<Organization> educationOS = educationalOrganizationSection.getOrganizations();
+//                            for (Organization org : educationOS) {
+//                                dos.writeUTF(org.getHomePage().getName());
+//                                dos.writeUTF(org.getHomePage().getUrl());
+//                                List<Position> positions = org.getPositions();
+//                                dos.writeInt(positions.size());
+//                                for (Position pos : positions) {
+//                                    dos.writeUTF(pos.getStartDate().toString());
+//                                    dos.writeUTF(pos.getEndDate().toString());
+//                                    dos.writeUTF(pos.getTitle());
+//                                    dos.writeUTF(pos.getDescription());
+//                                }
+//                            }
+//                            break;
+//                        case EXPERIENCE:
+//                            OrganizationSection experienceOrganizationSection = (OrganizationSection) entry.getValue();
+//                            List<Organization> experienceOS = experienceOrganizationSection.getOrganizations();
+//                            for (Organization org : experienceOS) {
+//                                dos.writeUTF(org.getHomePage().getName());
+//                                dos.writeUTF(org.getHomePage().getUrl());
+//                                List<Position> positions = org.getPositions();
+//                                dos.writeInt(positions.size());
+//                                for (Position pos : positions) {
+//                                    dos.writeUTF(pos.getStartDate().toString());
+//                                    dos.writeUTF(pos.getEndDate().toString());
+//                                    dos.writeUTF(pos.getTitle());
+//                                    dos.writeUTF(pos.getDescription());
+//                                }
+//                            }
+//                            break;
+//                    }
+//                }
+//                //TODO implements section
                 return r;
             }
         } catch (IOException e) {
