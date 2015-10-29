@@ -9,8 +9,10 @@ public class Link {
     private final String url;
 
     public Link(String name, String url) {
-        this.name = name;
-        this.url = url;
+        if (name!=null) this.name = name;
+        else this.name = "";
+        if (url!=null) this.url = url;
+        else this.url = "";
     }
 
     public String getName() {

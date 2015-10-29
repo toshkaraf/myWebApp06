@@ -21,6 +21,7 @@ import static ru.javawebinar.webapp.model.SectionType.*;
 public class DataStreamFileStorage extends AbstractFileStorage {
 
     protected final File directory;
+    protected int size = 0;
 
     public DataStreamFileStorage(String path) {
         directory = new File(path);
@@ -47,11 +48,13 @@ public class DataStreamFileStorage extends AbstractFileStorage {
                 doDelete(file.getName(), file);
             }
         }
+        size = 0;
     }
 
     @Override
     protected void doSave(Resume r, File file) {
         try {
+            file.renameTo(new File("./storage/" + r.getUuid()));
             if (!file.createNewFile()) {
                 throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
             }
@@ -124,6 +127,7 @@ public class DataStreamFileStorage extends AbstractFileStorage {
                                 break;
                         }
                 }
+                size++;
             }
         } catch (IOException e) {
             throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
@@ -211,6 +215,7 @@ public class DataStreamFileStorage extends AbstractFileStorage {
         if (!file.delete()) {
             throw new WebAppException(ExceptionType.IO_ERROR, uuid);
         }
+        size--;
     }
 
     @Override
@@ -220,6 +225,6 @@ public class DataStreamFileStorage extends AbstractFileStorage {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 }

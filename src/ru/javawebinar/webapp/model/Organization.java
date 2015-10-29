@@ -94,8 +94,10 @@ public class Organization {
         public Position(LocalDate startDate, LocalDate endDate, String title, String description) {
             this.startDate = startDate;
             this.endDate = endDate;
-            this.title = title;
-            this.description = description;
+            if (title!=null) this.title = title;
+             else this.title = "";
+            if (description!=null) this.description = description;
+            else this.description = "";
         }
 
         @Override
