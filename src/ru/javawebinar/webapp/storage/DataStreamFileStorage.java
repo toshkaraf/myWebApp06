@@ -30,7 +30,7 @@ public class DataStreamFileStorage extends AbstractFileStorage {
     }
 
     @Override
-    protected boolean exist(String uuid, File file) {
+    protected boolean exist(File file) {
         return file.isFile();
     }
 
@@ -39,7 +39,7 @@ public class DataStreamFileStorage extends AbstractFileStorage {
         File[] files = directory.listFiles();
         if (files != null) {
             for (File file : files) {
-                doDelete(file.getName(), file);
+                doDelete(file);
             }
         }
     }
@@ -70,12 +70,11 @@ public class DataStreamFileStorage extends AbstractFileStorage {
     }
 
     @Override
-    protected Resume doLoad(String uuid, File file) {
+    protected Resume doLoad(File file) {
         try {
             try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
-                String fullName = dis.readUTF();
+                Resume r = new Resume(dis.readUTF(), dis.readUTF());
                 int contactSize = dis.readInt();
-                Resume r = new Resume(uuid, fullName);
                 for (int i = 0; i < contactSize; i++) {
                     r.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
                 }
@@ -83,14 +82,14 @@ public class DataStreamFileStorage extends AbstractFileStorage {
                 return r;
             }
         } catch (IOException e) {
-            throw new WebAppException(ExceptionType.IO_ERROR, uuid);
+            throw new WebAppException(ExceptionType.IO_ERROR, file.getName(), e);
         }
     }
 
     @Override
-    protected void doDelete(String uuid, File file) {
+    protected void doDelete(File file) {
         if (!file.delete()) {
-            throw new WebAppException(ExceptionType.IO_ERROR, uuid);
+            throw new WebAppException(ExceptionType.IO_ERROR, file.getName());
         }
     }
 
