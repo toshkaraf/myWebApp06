@@ -221,13 +221,13 @@ public class DataStreamFileStorage extends AbstractFileStorage {
 
     @Override
     protected List<Resume> doGetAll() {
+        List<Resume> sortedList = new LinkedList<>();
         Set<String> sortedSet = new TreeSet<>();
-        for (String i: Arrays.sort(directory.list())) {
-            sortedSet.add(i);
-        ;
+        sortedSet.addAll(Arrays.asList(directory.list()));
+        for (String uuid : sortedSet) {
+            sortedList.add(load(uuid));
         }
-
-        return null;
+        return sortedList;
     }
 
     @Override
