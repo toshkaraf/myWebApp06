@@ -135,7 +135,10 @@ public class DataStreamFileStorage extends AbstractFileStorage {
 
     @Override
     protected void doUpdate(Resume r, File file) {
-
+        if (!file.delete()) {
+            throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
+        }
+        save(r);
     }
 
     @Override
@@ -224,7 +227,6 @@ public class DataStreamFileStorage extends AbstractFileStorage {
         List<Resume> sortedList = new LinkedList<>();
         for (String uuid : directory.list()) {
             sortedList.add(load(uuid));
-            System.out.println(uuid);
         }
         return sortedList;
     }

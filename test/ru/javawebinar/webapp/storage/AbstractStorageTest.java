@@ -96,19 +96,19 @@ public abstract class AbstractStorageTest {
         assertEquals(size, storage.size());
     }
 
-//    @Test
-//    public void testClear() throws Exception {
-//        storage.clear();
-//        assertSize(0);
-//    }
-//
-////    @Test
-////    public void testUpdate() throws Exception {
-////        R2.setFullName("Updated N2");
-////        storage.update(R2);
-////        assertGet(R2);
-////    }
-////
+    @Test
+    public void testClear() throws Exception {
+        storage.clear();
+        assertSize(0);
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
+        R2.setFullName("Updated N2");
+        storage.update(R2);
+        assertGet(R2);
+    }
+
     @Test
     public void testLoad() throws Exception {
         assertGet(R1);
@@ -116,48 +116,48 @@ public abstract class AbstractStorageTest {
         assertGet(R3);
     }
 
-//    @Test
-//    public void testDeleteNotFound() throws Exception {
-//        thrown.expect(WebAppException.class);
-//        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
-//        thrown.expect(new ExceptionTypeMatcher(ExceptionType.NOT_FOUND));
-//        storage.load("dummy");
-//    }
-//
-//    @Test
-//    public void testDelete() throws Exception {
-//        storage.delete(R1.getUuid());
-//        assertSize(2);
-//        assertGet(R2);
-//        assertGet(R3);
-//        thrown.expect(WebAppException.class);
-//        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
-//        assertGet(R1);
-//    }
-//
+    @Test
+    public void testDeleteNotFound() throws Exception {
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
+        thrown.expect(new ExceptionTypeMatcher(ExceptionType.NOT_FOUND));
+        storage.load("dummy");
+    }
+
+    @Test
+    public void testDelete() throws Exception {
+        storage.delete(R1.getUuid());
+        assertSize(2);
+        assertGet(R2);
+        assertGet(R3);
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
+        assertGet(R1);
+    }
+
     @Test
     public void testGetAllSorted() throws Exception {
         List<Resume> list = Arrays.asList(R1, R2, R3);
         assertEquals(list, new ArrayList<>(storage.getAllSorted()));
     }
-//
-//    @Test
-//    public void testSize() throws Exception {
-//        assertSize(3);
-//    }
-//
-//    @Test
-//    public void testSaveAlreadyExist() throws Exception {
-//        thrown.expect(WebAppException.class);
-//        thrown.expectMessage(ExceptionType.ALREADY_EXISTS.getMessage());
-//        storage.save(R1);
-//    }
-//
-//    @Test
-//    public void testUpdateMissed() throws Exception {
-//        Resume resume = new Resume("fullName_U1", "location_U1");
-//        thrown.expect(WebAppException.class);
-//        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
-//        storage.update(resume);
-//    }
+
+    @Test
+    public void testSize() throws Exception {
+        assertSize(3);
+    }
+
+    @Test
+    public void testSaveAlreadyExist() throws Exception {
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.ALREADY_EXISTS.getMessage());
+        storage.save(R1);
+    }
+
+    @Test
+    public void testUpdateMissed() throws Exception {
+        Resume resume = new Resume("fullName_U1", "location_U1");
+        thrown.expect(WebAppException.class);
+        thrown.expectMessage(ExceptionType.NOT_FOUND.getMessage());
+        storage.update(resume);
+    }
 }
