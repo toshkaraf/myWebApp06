@@ -22,4 +22,8 @@ public interface IStorage {
     Collection<Resume> getAllSorted();
 
     int size();
+
+    default boolean isSectionSupported() {
+        return true;
+    }
 }
