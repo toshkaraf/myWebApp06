@@ -1,5 +1,7 @@
 package ru.javawebinar.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.Arrays;
@@ -12,9 +14,13 @@ import static ru.javawebinar.webapp.util.DateUtil.of;
  * GKislin
  * 02.10.2015.
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization {
-    private final Link homePage;
-    private final List<Position> positions;
+    private Link homePage;
+    private List<Position> positions;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, Position... positions) {
         this(new Link(name, url), Arrays.asList(positions));
@@ -59,10 +65,13 @@ public class Organization {
     }
 
     public static class Position {
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String title;
-        private final String description;
+        private LocalDate startDate;
+        private LocalDate endDate;
+        private String title;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(int startYear, Month startMonth, String title, String description) {
             this(of(startYear, startMonth), NOW, title, description);

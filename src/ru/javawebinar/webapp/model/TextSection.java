@@ -5,7 +5,10 @@ package ru.javawebinar.webapp.model;
  * 02.10.2015.
  */
 public class TextSection extends Section{
-    private final String content;
+    private String content;
+
+    public TextSection() {
+    }
 
     public TextSection(String content) {
         this.content = content;

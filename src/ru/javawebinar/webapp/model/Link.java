@@ -1,12 +1,20 @@
 package ru.javawebinar.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
 /**
  * GKislin
  * 27.09.2015.
  */
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Link {
     private final String name;
     private final String url;
+
+    public Link() {
+        this("", null);
+    }
 
     public Link(String name, String url) {
         this.name = name;

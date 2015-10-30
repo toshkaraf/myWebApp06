@@ -9,7 +9,10 @@ import java.util.List;
  * 26.12.2014.
  */
 public class OrganizationSection extends Section {
-    private final List<Organization> organizations;
+    private List<Organization> organizations;
+
+    public OrganizationSection() {
+    }
 
     public OrganizationSection(Organization... organizations) {
         this(new ArrayList<>(Arrays.asList(organizations)));

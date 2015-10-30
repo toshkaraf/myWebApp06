@@ -1,5 +1,9 @@
 package ru.javawebinar.webapp.model;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Objects;
@@ -9,11 +13,18 @@ import java.util.UUID;
  * GKislin
  * 18.09.2015.
  */
-public class Resume {
-    private final String uuid;
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement
+public class Resume implements Serializable {
+    static final long serialVersionUID = 1L;
+
+    private String uuid;
     private String fullName;
-    private final Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
-    private final Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+    private Map<ContactType, String> contacts = new EnumMap<>(ContactType.class);
+    private Map<SectionType, Section> sections = new EnumMap<>(SectionType.class);
+
+    public Resume() {
+    }
 
     public Resume(String fullName) {
         this(UUID.randomUUID().toString(), fullName);

@@ -8,7 +8,10 @@ import java.util.List;
  * 02.10.2015.
  */
 public class MultiTextSection extends Section {
-    private final List<String> lines;
+    private List<String> lines;
+
+    public MultiTextSection() {
+    }
 
     public MultiTextSection(String... lines) {
         this(Arrays.asList(lines));

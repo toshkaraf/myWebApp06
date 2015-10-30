@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  * GKislin
  * 23.10.2015.
  */
+// TODO make cjoise between File and Path realization
 abstract public class PathStorage extends AbstractStorage<Path> {
     protected final Path directory;
 
