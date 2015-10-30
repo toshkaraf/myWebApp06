@@ -83,10 +83,10 @@ public abstract class AbstractStorageTest {
         storage.save(R3);
     }
 
-////    @After
-////    public void tearDown() throws Exception {
-////        storage.clear();
-////    }
+    @After
+    public void tearDown() throws Exception {
+        storage.clear();
+    }
 
     private void assertGet(Resume r) {
         assertTrue(storage.load(r.getUuid()).equals(r));
