@@ -22,6 +22,10 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         }
     }
 
+    protected abstract void write(Resume r, OutputStream os) throws IOException;
+
+    protected abstract Resume read(InputStream is) throws IOException;
+
     @Override
     protected File getContext(String uuid) {
         return new File(directory, uuid);
@@ -54,8 +58,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         doUpdate(r, file);
     }
 
-    protected abstract void write(Resume r, OutputStream os) throws IOException;
-
     @Override
     protected void doUpdate(Resume r, File file) {
         try {
@@ -73,8 +75,6 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
             throw new WebAppException(ExceptionType.IO_ERROR, file.getName(), e);
         }
     }
-
-    protected abstract Resume read(InputStream is) throws IOException;
 
     @Override
     protected void doDelete(File file) {
