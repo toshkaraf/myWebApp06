@@ -1,13 +1,13 @@
 package ru.javawebinar.webapp.storage;
 
-import ru.javawebinar.webapp.exceptions.ExceptionType;
-import ru.javawebinar.webapp.exceptions.WebAppException;
-import ru.javawebinar.webapp.model.ContactType;
-import ru.javawebinar.webapp.model.Resume;
+import ru.javawebinar.webapp.model.*;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * GKislin
@@ -15,91 +15,123 @@ import java.util.Map;
  */
 public class DataStreamFileStorage extends AbstractFileStorage {
 
-    protected final File directory;
-
     public DataStreamFileStorage(String path) {
-        directory = new File(path);
-        if (!directory.isDirectory()) {
-            throw new IllegalArgumentException(path + " is not directory");
-        }
+        super(path);
     }
 
     @Override
-    protected File getContext(String uuid) {
-        return new File(directory, uuid);
-    }
+    protected void write(Resume r, OutputStream os) throws IOException {
+        try (final DataOutputStream dos = new DataOutputStream(os)) {
+            dos.writeUTF(r.getUuid());
+            dos.writeUTF(r.getFullName());
 
-    @Override
-    protected boolean exist(File file) {
-        return file.isFile();
-    }
+            writeCollection(dos, r.getContacts().entrySet(), entry -> {
+                dos.writeUTF(entry.getKey().name());
+                dos.writeUTF(entry.getValue());
+            });
 
-    @Override
-    protected void doClear() {
-        File[] files = directory.listFiles();
-        if (files != null) {
-            for (File file : files) {
-                doDelete(file);
-            }
-        }
-    }
-
-    @Override
-    protected void doSave(Resume r, File file) {
-        try {
-            if (!file.createNewFile()) {
-                throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
-            }
-            try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(file))) {
-                dos.writeUTF(r.getFullName());
-                dos.writeInt(r.getContacts().size());
-                for (Map.Entry<ContactType, String> entry : r.getContacts().entrySet()) {
-                    dos.writeUTF(entry.getKey().name());
-                    dos.writeUTF(entry.getValue());
+            writeCollection(dos, r.getSections().entrySet(), entry -> {
+                SectionType type = entry.getKey();
+                Section section = entry.getValue();
+                dos.writeUTF(type.name());
+                switch (type) {
+                    case OBJECTIVE:
+                        dos.writeUTF(((TextSection) section).getContent());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        writeCollection(dos, ((MultiTextSection) section).getLines(), dos::writeUTF);
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        writeCollection(dos, ((OrganizationSection) section).getOrganizations(), org -> {
+                            dos.writeUTF(org.getHomePage().getName());
+                            dos.writeUTF(org.getHomePage().getUrl());
+                            writeCollection(dos, org.getPositions(), position -> {
+                                writeLocalDate(dos, position.getStartDate());
+                                writeLocalDate(dos, position.getEndDate());
+                                dos.writeUTF(position.getTitle());
+                                dos.writeUTF(position.getDescription());
+                            });
+                        });
+                        break;
                 }
-            }
-            //TODO implements section
-        } catch (IOException e) {
-            throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid());
+            });
         }
     }
 
-    @Override
-    protected void doUpdate(Resume r, File file) {
+    private void writeLocalDate(DataOutputStream dos, LocalDate ld) throws IOException {
+        dos.writeInt(ld.getYear());
+        dos.writeInt(ld.getMonth().ordinal());
+    }
 
+    private LocalDate readLocalDate(DataInputStream dis) throws IOException {
+        return LocalDate.of(dis.readInt(), Month.values()[dis.readInt()], 1);
     }
 
     @Override
-    protected Resume doLoad(File file) {
-        try {
-            try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
-                Resume r = new Resume(dis.readUTF(), dis.readUTF());
-                int contactSize = dis.readInt();
-                for (int i = 0; i < contactSize; i++) {
-                    r.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-                }
-                //TODO implements section
-                return r;
-            }
-        } catch (IOException e) {
-            throw new WebAppException(ExceptionType.IO_ERROR, file.getName(), e);
+    protected Resume read(InputStream is) throws IOException {
+        try (DataInputStream dis = new DataInputStream(is)) {
+            Resume r = new Resume(dis.readUTF(), dis.readUTF());
+            readItems(dis, () -> r.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
+            readItems(dis, () -> {
+                SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                r.addSection(sectionType, readSection(dis, sectionType));
+            });
+            return r;
         }
     }
 
-    @Override
-    protected void doDelete(File file) {
-        if (!file.delete()) {
-            throw new WebAppException(ExceptionType.IO_ERROR, file.getName());
+    private Section readSection(DataInputStream dis, SectionType sectionType) throws IOException {
+        switch (sectionType) {
+            case OBJECTIVE:
+                return new TextSection(dis.readUTF());
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
+                return new MultiTextSection(readList(dis, dis::readUTF));
+            case EXPERIENCE:
+            case EDUCATION:
+                return new OrganizationSection(readList(dis, () -> new Organization(
+                        new Link(dis.readUTF(), dis.readUTF()),
+                        readList(dis, ()-> new Organization.Position(readLocalDate(dis), readLocalDate(dis), dis.readUTF(), dis.readUTF()) )
+                )));
+            default:
+                throw new IllegalStateException();
         }
     }
 
-    @Override
-    protected List<Resume> doGetAll() {
-        return null;
+    private interface ElementWriter<T> {
+        void write(T t) throws IOException;
     }
 
-    @Override
-    public int size() {
-        return 0;
+    private interface ElementReader<T> {
+        T read() throws IOException;
+    }
+
+    private interface Processor {
+        void process() throws IOException;
+    }
+
+    private <T> void readItems(DataInputStream dis, Processor processor) throws IOException {
+        int size = dis.readInt();
+        for (int i = 0; i < size; i++) {
+            processor.process();
+        }
+    }
+
+    private <T> List<T> readList(DataInputStream dis, ElementReader<T> reader) throws IOException {
+        int size = dis.readInt();
+        List<T> list = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            list.add(reader.read());
+        }
+        return list;
+    }
+
+    private <T> void writeCollection(DataOutputStream dos, Collection<T> collection, ElementWriter<T> writer) throws IOException {
+        dos.writeInt(collection.size());
+        for (T item : collection) {
+            writer.write(item);
+        }
     }
 }
