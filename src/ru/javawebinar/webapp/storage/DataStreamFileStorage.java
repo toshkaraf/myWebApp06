@@ -7,7 +7,10 @@ import ru.javawebinar.webapp.model.Organization.Position;
 
 import java.io.*;
 import java.time.Month;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static ru.javawebinar.webapp.model.SectionType.*;
 
@@ -143,72 +146,71 @@ public class DataStreamFileStorage extends AbstractFileStorage {
 
     @Override
     protected Resume doLoad(String uuid, File file) {
-        try {
-            try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
-                String fullName = dis.readUTF();
-                int contactSize = dis.readInt();
-                Resume r = new Resume(uuid, fullName);
-                for (int i = 0; i < contactSize; i++) {
-                    r.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
-                }
-                int sectionSize = dis.readInt();
-                for (int s = 0; s < sectionSize; s++) {
-                    String sectionType = dis.readUTF();
-                    switch (sectionType) {
-                        case ("OBJECTIVE"):
-                            r.addSection(OBJECTIVE, new TextSection(dis.readUTF()));
-                            break;
-                        case ("ACHIEVEMENT"):
-                            int achievementSize = dis.readInt();
-                            List<String> achievements = new LinkedList<>();
-                            for (int i = 0; i < achievementSize; i++) {
-                                achievements.add(dis.readUTF());
-                                r.addSection(ACHIEVEMENT, new MultiTextSection(achievements));
-                            }
-                            break;
-                        case ("QUALIFICATIONS"):
-                            int qualificationSize = dis.readInt();
-                            List<String> qualifications = new LinkedList<>();
-                            for (int i = 0; i < qualificationSize; i++) {
-                                qualifications.add(dis.readUTF());
-                            }
-                            r.addSection(QUALIFICATIONS, new MultiTextSection(qualifications));
-                            break;
-                        case ("EXPERIENCE"):
-                            int organisationsSize = dis.readInt();
-                            List<Organization> experiences = new LinkedList<>();
-                            for (int i = 0; i < organisationsSize; i++) {
-                                Link link = new Link(dis.readUTF(), dis.readUTF());
-                                int positionSize = dis.readInt();
-                                List<Position> positions = new LinkedList<>();
-                                for (int a = 0; a < positionSize; a++) {
-                                    positions.add(new Position(dis.readInt(), Month.of(dis.readInt()), dis.readInt(), Month.of(dis.readInt()), dis.readUTF(), dis.readUTF()));
-                                }
-                                Organization org = new Organization(link, positions);
-                                experiences.add(org);
-                            }
-                            r.addSection(EXPERIENCE, new OrganizationSection(experiences));
-                            break;
-                        case ("EDUCATION"):
-                            int educationSize = dis.readInt();
-                            List<Organization> educations = new LinkedList<>();
-                            for (int i = 0; i < educationSize; i++) {
-                                Link link = new Link(dis.readUTF(), dis.readUTF());
-                                int positionSize = dis.readInt();
-                                List<Position> positions = new LinkedList<>();
-                                for (int a = 0; a < positionSize; a++) {
-                                    positions.add(new Position(dis.readInt(), Month.of(dis.readInt()), dis.readInt(), Month.of(dis.readInt()), dis.readUTF(), dis.readUTF()));
-                                }
-                                Organization org = new Organization(link, positions);
-                                educations.add(org);
-                            }
-                            r.addSection(EDUCATION, new OrganizationSection(educations));
-                            break;
 
-                    }
-                }
-                return r;
+        try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+            String fullName = dis.readUTF();
+            int contactSize = dis.readInt();
+            Resume r = new Resume(uuid, fullName);
+            for (int i = 0; i < contactSize; i++) {
+                r.addContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
+            int sectionSize = dis.readInt();
+            for (int s = 0; s < sectionSize; s++) {
+                String sectionType = dis.readUTF();
+                switch (sectionType) {
+                    case ("OBJECTIVE"):
+                        r.addSection(OBJECTIVE, new TextSection(dis.readUTF()));
+                        break;
+                    case ("ACHIEVEMENT"):
+                        int achievementSize = dis.readInt();
+                        List<String> achievements = new LinkedList<>();
+                        for (int i = 0; i < achievementSize; i++) {
+                            achievements.add(dis.readUTF());
+                            r.addSection(ACHIEVEMENT, new MultiTextSection(achievements));
+                        }
+                        break;
+                    case ("QUALIFICATIONS"):
+                        int qualificationSize = dis.readInt();
+                        List<String> qualifications = new LinkedList<>();
+                        for (int i = 0; i < qualificationSize; i++) {
+                            qualifications.add(dis.readUTF());
+                        }
+                        r.addSection(QUALIFICATIONS, new MultiTextSection(qualifications));
+                        break;
+                    case ("EXPERIENCE"):
+                        int organisationsSize = dis.readInt();
+                        List<Organization> experiences = new LinkedList<>();
+                        for (int i = 0; i < organisationsSize; i++) {
+                            Link link = new Link(dis.readUTF(), dis.readUTF());
+                            int positionSize = dis.readInt();
+                            List<Position> positions = new LinkedList<>();
+                            for (int a = 0; a < positionSize; a++) {
+                                positions.add(new Position(dis.readInt(), Month.of(dis.readInt()), dis.readInt(), Month.of(dis.readInt()), dis.readUTF(), dis.readUTF()));
+                            }
+                            Organization org = new Organization(link, positions);
+                            experiences.add(org);
+                        }
+                        r.addSection(EXPERIENCE, new OrganizationSection(experiences));
+                        break;
+                    case ("EDUCATION"):
+                        int educationSize = dis.readInt();
+                        List<Organization> educations = new LinkedList<>();
+                        for (int i = 0; i < educationSize; i++) {
+                            Link link = new Link(dis.readUTF(), dis.readUTF());
+                            int positionSize = dis.readInt();
+                            List<Position> positions = new LinkedList<>();
+                            for (int a = 0; a < positionSize; a++) {
+                                positions.add(new Position(dis.readInt(), Month.of(dis.readInt()), dis.readInt(), Month.of(dis.readInt()), dis.readUTF(), dis.readUTF()));
+                            }
+                            Organization org = new Organization(link, positions);
+                            educations.add(org);
+                        }
+                        r.addSection(EDUCATION, new OrganizationSection(educations));
+                        break;
+
+                }
+            }
+            return r;
         } catch (IOException e) {
             throw new WebAppException(ExceptionType.IO_ERROR, uuid);
         }
