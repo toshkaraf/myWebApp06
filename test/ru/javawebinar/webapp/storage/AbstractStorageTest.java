@@ -135,11 +135,11 @@ public abstract class AbstractStorageTest {
 //        assertGet(R1);
 //    }
 //
-////    @Test
-////    public void testGetAllSorted() throws Exception {
-////        List<Resume> list = Arrays.asList(R1, R2, R3);
-////        assertEquals(list, new ArrayList<>(storage.getAllSorted()));
-////    }
+    @Test
+    public void testGetAllSorted() throws Exception {
+        List<Resume> list = Arrays.asList(R1, R2, R3);
+        assertEquals(list, new ArrayList<>(storage.getAllSorted()));
+    }
 //
 //    @Test
 //    public void testSize() throws Exception {
