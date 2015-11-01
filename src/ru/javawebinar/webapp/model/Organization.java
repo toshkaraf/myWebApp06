@@ -1,10 +1,16 @@
 package ru.javawebinar.webapp.model;
 
+import ru.javawebinar.webapp.util.LocalDateAdapter;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import static ru.javawebinar.webapp.util.DateUtil.NOW;
@@ -15,9 +21,11 @@ import static ru.javawebinar.webapp.util.DateUtil.of;
  * 02.10.2015.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Organization {
+public class Organization implements Serializable {
+    static final long serialVersionUID = 1L;
+
     private Link homePage;
-    private List<Position> positions;
+    private List<Position> positions = new ArrayList<>();
 
     public Organization() {
     }
@@ -64,9 +72,16 @@ public class Organization {
         return result;
     }
 
-    public static class Position {
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static class Position  implements Serializable {
+        static final long serialVersionUID = 1L;
+
+// TODO @XmlJavaTypeAdapter
         private LocalDate startDate;
+
+//TODO  @XmlJavaTypeAdapter
         private LocalDate endDate;
+
         private String title;
         private String description;
 
