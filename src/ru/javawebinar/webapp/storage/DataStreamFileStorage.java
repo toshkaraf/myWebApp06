@@ -8,6 +8,7 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * GKislin
@@ -25,9 +26,12 @@ public class DataStreamFileStorage extends AbstractFileStorage {
             dos.writeUTF(r.getUuid());
             dos.writeUTF(r.getFullName());
 
-            writeCollection(dos, r.getContacts().entrySet(), entry -> {
-                dos.writeUTF(entry.getKey().name());
-                dos.writeUTF(entry.getValue());
+            writeCollection(dos, r.getContacts().entrySet(), new ElementWriter<Map.Entry<ContactType, String>>() {
+                @Override
+                public void write(Map.Entry<ContactType, String> entry) throws IOException {
+                    dos.writeUTF(entry.getKey().name());
+                    dos.writeUTF(entry.getValue());
+                }
             });
 
             writeCollection(dos, r.getSections().entrySet(), entry -> {

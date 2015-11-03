@@ -93,6 +93,11 @@ public abstract class AbstractStorage<C> implements IStorage {
         return list;
     }
 
+    @Override
+    public boolean isSectionSupported() {
+        return false;
+    }
+
     protected abstract List<Resume> doGetAll();
 
     private void mustNotExist(String uuid, C ctx) {
