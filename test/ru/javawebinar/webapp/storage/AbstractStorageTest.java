@@ -56,14 +56,14 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() throws Exception {
         ResumeTestData.init();
-//        storage.save(ResumeTestData.R1);
+        storage.save(ResumeTestData.R1);
        storage.save(ResumeTestData.R2);
-//        storage.save(ResumeTestData.R3);
+       storage.save(ResumeTestData.R3);
     }
 
     @After
     public void tearDown() throws Exception {
-        storage.clear();
+storage.clear();
     }
 
     private void assertGet(Resume r) {

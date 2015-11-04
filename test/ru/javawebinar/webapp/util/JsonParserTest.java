@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 
+import static ru.javawebinar.webapp.ResumeTestData.R1;
 import static ru.javawebinar.webapp.ResumeTestData.R2;
 import static ru.javawebinar.webapp.ResumeTestData.R3;
 
@@ -25,7 +26,7 @@ public class JsonParserTest {
 
     @Test
     public void testReadAndWrite() throws Exception {
-//        readAndWrite("resume1.json", R1);
+        readAndWrite("resume1.json", R1);
         readAndWrite("resume2.json", R2);
         readAndWrite("resume3.json", R3);
     }

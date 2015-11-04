@@ -18,12 +18,17 @@ public class JsonFileStorage extends AbstractFileStorage{
 
     @Override
     protected void write(Resume r, OutputStream os) throws IOException {
-        JsonParser.write(r, new OutputStreamWriter(os));
+        try (OutputStreamWriter writer = new OutputStreamWriter(os)) {
+            JsonParser.write(r, writer);
+        }
     }
 
     @Override
     protected Resume read(InputStream is) throws IOException {
-        return JsonParser.read(new InputStreamReader(is),Resume.class);
+        try (InputStreamReader reader = new InputStreamReader(is)) {
+            Resume r = JsonParser.read(reader, Resume.class);
+            return r;
+        }
     }
 
 }
