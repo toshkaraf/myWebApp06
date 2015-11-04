@@ -64,6 +64,15 @@ public class Resume implements Serializable {
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
+
+    public Resume getCopyWithowtSections() {
+        Resume r = new Resume(uuid, fullName);
+        for (Map.Entry entry : getContacts().entrySet()) {
+            r.addContact((ContactType) entry.getKey(), (String) entry.getValue());
+        }
+        return r;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -91,4 +100,5 @@ public class Resume implements Serializable {
     public String toString() {
         return "{fullName='" + fullName + " (" + uuid + ")}";
     }
+
 }

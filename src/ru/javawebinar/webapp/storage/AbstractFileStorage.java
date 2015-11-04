@@ -61,8 +61,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void doUpdate(Resume r, File file) {
         if (isSectionSupported() == false) {
-
-        };        ;
+            r = r.getCopyWithowtSections();
+        }
         try {
             write(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {

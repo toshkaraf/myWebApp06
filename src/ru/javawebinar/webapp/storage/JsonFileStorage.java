@@ -10,7 +10,7 @@ import java.io.*;
  * 30.10.2015.
  */
 // TODO Optional try implements section
-public class JsonFileStorage extends AbstractFileStorage{
+public class JsonFileStorage extends AbstractFileStorage {
 
     public JsonFileStorage(String path) {
         super(path);
