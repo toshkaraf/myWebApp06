@@ -60,10 +60,12 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected void doUpdate(Resume r, File file) {
+        if (isSectionSupported() == false) {
+
+        };        ;
         try {
             write(r, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            System.out.println(e);
             throw new WebAppException(ExceptionType.IO_ERROR, r.getUuid(), e);
         }
     }
