@@ -5,5 +5,6 @@ package ru.javawebinar.webapp.storage;
  * 30.10.2015.
  */
 // TODO Optional try implements section
-public class JsonFileStorage {
+public class JsonFileStorage extends AbstractFileStorage{
+
 }

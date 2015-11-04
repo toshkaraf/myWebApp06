@@ -2,6 +2,7 @@ package ru.javawebinar.webapp.exceptions;
 
 public enum ExceptionType {
     XML_ERROR("Xml error"),
+    SERIALISATION_ERROR("Error jf serialisation"),
     IO_ERROR("Input/Output error"),
     NOT_FOUND("Resume not found in storage"),
     ALREADY_EXISTS ("Resume is already exist in storage"),

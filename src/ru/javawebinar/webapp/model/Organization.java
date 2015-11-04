@@ -1,16 +1,12 @@
 package ru.javawebinar.webapp.model;
 
-import ru.javawebinar.webapp.util.LocalDateAdapter;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import static ru.javawebinar.webapp.util.DateUtil.NOW;
