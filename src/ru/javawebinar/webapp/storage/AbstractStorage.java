@@ -95,11 +95,7 @@ public abstract class AbstractStorage<C> implements IStorage {
 
     @Override
     public boolean isSectionSupported() {
-        if (this.getClass().equals(ArrayStorage.class)) {
-            System.out.println("sectoins is not supported");
-            return false;
-        }
-        return true;
+        return (!this.getClass().equals(JsonFileStorage.class));
     }
 
     protected abstract List<Resume> doGetAll();

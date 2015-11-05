@@ -65,12 +65,16 @@ public class Resume implements Serializable {
         this.fullName = fullName;
     }
 
-    public Resume getCopyWithowtSections() {
-        Resume r = new Resume(uuid, fullName);
-        for (Map.Entry entry : getContacts().entrySet()) {
-            r.addContact((ContactType) entry.getKey(), (String) entry.getValue());
-        }
-        return r;
+//    public Resume getCopyWithoutSections() {
+//        Resume r = new Resume(uuid, fullName);
+//        for (Map.Entry entry : getContacts().entrySet()) {
+//            r.addContact((ContactType) entry.getKey(), (String) entry.getValue());
+//        }
+//        return r;
+//    }
+
+    public void cutSections() {
+        sections.clear();
     }
 
     @Override
